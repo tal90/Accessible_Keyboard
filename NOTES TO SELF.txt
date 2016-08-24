@@ -1,0 +1,3 @@
+in the 'key' class - consider adding the function - 
+'public void onPopulateAccessibilityEvent(AccessibilityEvent event)'
+search the vitalness of this func and add if needed..

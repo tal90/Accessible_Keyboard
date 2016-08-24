@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_gravity="bottom"
+              android:gravity="bottom"
+              android:background="@color/Wrapping_Layout_Background">
+    <TextView
+        android:id="@+id/Attached_Chief_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:text=""
+        android:textSize="70sp"
+        android:textColor="@color/Chief_TextView_Text_Color"/>
+    <tal.tal.tweetkeys.keyoards_types.capital_english_keyboard.CapitalEnglishViewRenderer
+        android:id="@+id/Attached_Cap_Eng_ViewRenderer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+</LinearLayout>
+
+    <!--
+    in the HebrewViewRenderer - android:layout_alignParentBottom="true"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.keystohappiness"
+    -->

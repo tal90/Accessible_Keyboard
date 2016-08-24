@@ -2,6 +2,10 @@ package tal.tal.gestures_accessible_keyboard.keyboard.keys_area;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -9,7 +13,7 @@ import android.view.View;
 /**
  * Created by talra on 24-Aug-16.
  */
-public class key extends View
+public class Key extends View
 {
     private int mWidth;
     private int mHeight;
@@ -19,23 +23,23 @@ public class key extends View
 
 
     //region Constructors
-    public key(Context context)
+    public Key(Context context)
     {
         super(context);
     }
 
-    public key(Context context, AttributeSet attrs)
+    public Key(Context context, AttributeSet attrs)
     {
         super(context, attrs);
     }
 
-    public key(Context context, AttributeSet attrs, int defStyleAttr)
+    public Key(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public key(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
+    public Key(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
     {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
@@ -139,5 +143,50 @@ public class key extends View
         return "";
     }
 
+    /**
+     * drawing the key..
+     *
+     * @param canvas
+     */
+    @Override
+    public void draw(Canvas canvas)
+    {
+        super.draw(canvas);
+        Object tag = getTag();
+
+        if (tag == null)
+            return;
+
+        canvas.drawColor(Color.BLACK);          // Drawing the whole key as a black square..
+
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setStyle(Paint.Style.FILL);
+        float size = Math.min(mWidth * 0.9f, mHeight * 0.9f); // TODO - Play with this - change to '0.8f'.. until it seats well..
+        paint.setTextSize(size);
+
+        String textToDraw = tag.toString();
+        Rect bounds = new Rect();
+        paint.getTextBounds(textToDraw, 0, textToDraw.length(), bounds);
+
+        int bottomMargin = (mHeight - bounds.height()) / 2;
+        int leftMargin = (mWidth - bounds.width()) / 2;
+
+        canvas.drawText(textToDraw, leftMargin, (mHeight - bottomMargin), paint);        // writing the tag on the Key..
+        Rect r = new Rect(5, 0, mWidth - 5, mHeight);
+        Paint paint1 = new Paint();
+        paint1.setStyle(Paint.Style.STROKE);
+        paint1.setColor(Color.WHITE);
+        canvas.drawRect(r, paint1);
+    }
+
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mWidth = w;
+        mHeight = h;
+    }
 
 }

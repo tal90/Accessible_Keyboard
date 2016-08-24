@@ -3,4 +3,56 @@
     <string name="english_ime_name">Accessible keyboard</string>
     <string name="subtype_accessible_keyboard">Accessible Keyboard</string>
     <string name="title_activity_settings">Keyboard Settings</string>
+
+    <string name="HebTweet_1">.,!</string>
+    <string name="HebTweet_2">ד</string>
+    <string name="HebTweet_3">א</string>
+    <string name="HebTweet_4">מ</string>
+    <string name="HebTweet_5">י</string>
+    <string name="HebTweet_6">ז</string>
+    <string name="HebTweet_7">ר</string>
+    <string name="HebTweet_8">צ</string>
+    <string name="HebTweet_9">ס</string>
+    <string name="HebTweet_10">Enter</string>
+    <string name="HebTweet_11">Space</string>
+    <string name="HebTweet_12">BS</string>
+
+    <string name="EngTweet_1">!</string>
+    <string name="EngTweet_2">a</string>
+    <string name="EngTweet_3">d</string>
+    <string name="EngTweet_4">g</string>
+    <string name="EngTweet_5">j</string>
+    <string name="EngTweet_6">m</string>
+    <string name="EngTweet_7">p</string>
+    <string name="EngTweet_8">t</string>
+    <string name="EngTweet_9">w</string>
+    <string name="EngTweet_10">Enter</string>
+    <string name="EngTweet_11">Space</string>
+    <string name="EngTweet_12">BS</string>
+
+    <string name="Cap_EngTweet_1">!</string>
+    <string name="Cap_EngTweet_2">A</string>
+    <string name="Cap_EngTweet_3">D</string>
+    <string name="Cap_EngTweet_4">G</string>
+    <string name="Cap_EngTweet_5">J</string>
+    <string name="Cap_EngTweet_6">M</string>
+    <string name="Cap_EngTweet_7">P</string>
+    <string name="Cap_EngTweet_8">T</string>
+    <string name="Cap_EngTweet_9">W</string>
+    <string name="Cap_EngTweet_10">Enter</string>
+    <string name="Cap_EngTweet_11">Space</string>
+    <string name="Cap_EngTweet_12">BS</string>
+
+    <string name="SymTweet_1">1</string>
+    <string name="SymTweet_2">2</string>
+    <string name="SymTweet_3">3</string>
+    <string name="SymTweet_4">4</string>
+    <string name="SymTweet_5">5</string>
+    <string name="SymTweet_6">6</string>
+    <string name="SymTweet_7">7</string>
+    <string name="SymTweet_8">8</string>
+    <string name="SymTweet_9">9</string>
+    <string name="SymTweet_10">Enter</string>
+    <string name="SymTweet_11">Space OR 0</string>
+    <string name="SymTweet_12">BS</string>
 </resources>
