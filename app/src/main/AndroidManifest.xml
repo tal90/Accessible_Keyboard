@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest package="tal.tal.gestures_accessible_keyboard"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -8,25 +9,31 @@
         android:theme="@style/AppTheme">
 
         <!-- Services -->
-        <service android:name=".MainIME"
-                 android:label="@string/english_ime_name"
-                 android:permission="android.permission.BIND_INPUT_METHOD">
+        <service
+            android:name=".MainIME"
+            android:label="@string/english_ime_name"
+            android:permission="android.permission.BIND_INPUT_METHOD">
             <intent-filter>
-                <action android:name="android.view.InputMethod" />
+                <action android:name="android.view.InputMethod"/>
             </intent-filter>
-            <meta-data android:name="android.view.im" android:resource="@xml/method" />
+
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/method"/>
         </service>
 
         <!-- Activities -->
         <activity
-            android:name=".activities.settings_acivity.SettingsActivity"
+            android:name=".activities.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

@@ -7,5 +7,4 @@ import android.inputmethodservice.InputMethodService;
  */
 public class MainIME extends InputMethodService
 {
-    //TODO- kjhbkjhgkhg
 }
