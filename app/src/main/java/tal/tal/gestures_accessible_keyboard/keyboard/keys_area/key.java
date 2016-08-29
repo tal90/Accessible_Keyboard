@@ -10,6 +10,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import tal.tal.gestures_accessible_keyboard.keyboard.KeysOrganizer;
+
 /**
  * Created by talra on 24-Aug-16.
  */
@@ -20,6 +22,7 @@ public class Key extends View
     private int mSerialNum;
     private int mState = 1;
     private int mMaxStates = 3;
+    private KeysOrganizer mKeysOrganizer = null;
 
 
     //region Constructors
@@ -93,6 +96,11 @@ public class Key extends View
         if (ContDesc != null)
             setContentDescription(ContDesc);
             */
+    }
+
+    public void setKeysOrganizer(KeysOrganizer mKeysOrganizer)
+    {
+        this.mKeysOrganizer = mKeysOrganizer;
     }
 
     public int getMaxStates()

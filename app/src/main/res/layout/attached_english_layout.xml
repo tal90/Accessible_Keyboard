@@ -14,7 +14,7 @@
         android:text=""
         android:textSize="70sp"
         android:textColor="@color/Chief_TextView_Text_Color"/>
-    <tal.tal.tweetkeys.keyoards_types.english_keyboard.EnglishViewRenderer
+    <tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.english_keyboard.EnglishViewRenderer
         android:id="@+id/Attached_Eng_ViewRenderer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

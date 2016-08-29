@@ -14,16 +14,9 @@
         android:text=""
         android:textSize="70sp"
         android:textColor="@color/Chief_TextView_Text_Color"/>
-    <tal.tal.tweetkeys.keyoards_types.capital_english_keyboard.CapitalEnglishViewRenderer
+    <tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.capital_english_keyboard.CapitalEnglishViewRenderer
         android:id="@+id/Attached_Cap_Eng_ViewRenderer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"/>
 </LinearLayout>
-
-    <!--
-    in the HebrewViewRenderer - android:layout_alignParentBottom="true"
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res/com.keystohappiness"
-    -->

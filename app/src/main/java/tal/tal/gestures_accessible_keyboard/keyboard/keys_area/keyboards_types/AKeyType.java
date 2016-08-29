@@ -4,6 +4,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import java.util.HashMap;
 
+import tal.tal.gestures_accessible_keyboard.keyboard.KeysOrganizer;
+import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
+
 
 /**
  * This interface helps to determine the type of a specific key..
@@ -11,11 +14,23 @@ import java.util.HashMap;
  */
 public abstract class AKeyType
 {
+    protected Key[] mKeys;               // shall i add 'Row[] Rows' ..??
+
     public abstract String getKeyboardName();
     public abstract boolean IsRegularKey(int KeySerialNum);
     public abstract String getMeaningStringFromKey(int KeySerialNum, int KeyState);      // TODO - THINK OF A BETTER NAME..!!
     public abstract LinearLayout[] getRowsArray(View v);
     public abstract HashMap<String, String> getKeyMapper();
+    public abstract View KeyboardInitializer(KeysOrganizer keysOrganizer);
+
+    public int getNumberOfKeys()
+    {
+        return 12;
+    }
+    public Key[] getKeys()
+    {
+        return mKeys;
+    }
 
     /*
 

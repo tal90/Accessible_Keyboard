@@ -1,4 +1,4 @@
-package tal.tal.tweetkeys.keyoards_types.symbols_keyboard;
+package tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.symbols_keyboard;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 import tal.tal.gestures_accessible_keyboard.R;
 import tal.tal.gestures_accessible_keyboard.keyboard.Consts;
+import tal.tal.gestures_accessible_keyboard.keyboard.KeysOrganizer;
+import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.AKeyType;
 
 
@@ -43,6 +45,43 @@ public class SymbolsKeysType extends AKeyType
             InitKeyMapper();
 
         return KeyMapper;
+    }
+
+    @Override
+    public View KeyboardInitializer(KeysOrganizer keysOrganizer)
+    {
+        View KeyboardView = keysOrganizer.getLayoutInflater().inflate(R.layout.attached_symbols_layout, null);
+        if (KeyboardView == null)
+            return null;
+
+        View ViewRender = KeyboardView.findViewById(R.id.Attached_Sym_ViewRenderer);
+        mKeys = new Key[getNumberOfKeys()];
+
+        mKeys[0] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key1);
+        mKeys[1] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key2);
+        mKeys[2] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key3);
+
+        mKeys[3] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key4);
+        mKeys[4] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key5);
+        mKeys[5] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key6);
+
+        mKeys[6] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key7);
+        mKeys[7] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key8);
+        mKeys[8] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key9);
+
+        mKeys[9] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key10);
+        mKeys[10] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key11);
+        mKeys[11] = (Key) ViewRender.findViewById(R.id.Sym_Custom_Key12);
+
+        for (int i = 0; i < mKeys.length; i++)
+        {
+            mKeys[i].setKeysOrganizer(keysOrganizer);
+            mKeys[i].setSerialNum(i);
+            mKeys[i].setMaxStates(Integer.valueOf(this.getMeaningStringFromKey(i, 0)));
+            mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));
+        }
+
+        return ViewRender;
     }
 
     @Override
