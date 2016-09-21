@@ -5,3 +5,7 @@ search the vitalness of this func and add if needed..
 
 Don't forget implementing the IKeyInteraction..!! from TweetKeys..!
 leshalev et ze!
+
+
+onCreateInputView - in MainIME - at the end.. i shall maybe initiallize the 'TextTweeter'
+as i did in TweetKeys

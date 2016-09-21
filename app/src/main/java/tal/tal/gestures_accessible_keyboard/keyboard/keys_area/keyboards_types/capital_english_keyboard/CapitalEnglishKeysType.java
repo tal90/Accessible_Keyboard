@@ -17,7 +17,6 @@ public class CapitalEnglishKeysType extends AKeyType
 {
     private HashMap<String, String> mKeyMapper = null;
 
-
     public CapitalEnglishKeysType()
     {
         InitKeyMapper();
@@ -107,14 +106,15 @@ public class CapitalEnglishKeysType extends AKeyType
 
         return Rows;
     }
-/*
+
     @Override
-    public View getEnterKeyView(View v)
+    public Key getEnterKey(View v)
     {
-        return v.findViewById(R.id.Cap_Eng_Custom_Key10);
+        return (Key)v.findViewById(R.id.Cap_Eng_Custom_Key10);
     }
 
 
+/*
     @Override
     public boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState)
     {
@@ -122,12 +122,12 @@ public class CapitalEnglishKeysType extends AKeyType
         return false;
     }
 
-      @Override
+*/
+    @Override
     public View getKeysViewLayoutRoot(View v)
     {
         return v.findViewById(R.id.Cap_Eng_Custom_Layout_Root);
     }
-*/
     public void InitKeyMapper()
     {
         mKeyMapper = new HashMap<String,String>();

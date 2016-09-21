@@ -90,12 +90,9 @@ public class Key extends View
             return;
 
         mState = NewState;
-        /*
-        TODO - ADD this part - refreshing the 'contentDesc' of our key..
-        String ContDesc = keysOrganizer.getMeaningStringFromKey(KeySerialNum, KeyState);
+        String ContDesc = mKeysOrganizer.getKeyMeaning(mSerialNum, mState);
         if (ContDesc != null)
             setContentDescription(ContDesc);
-            */
     }
 
     public void setKeysOrganizer(KeysOrganizer mKeysOrganizer)
@@ -145,10 +142,7 @@ public class Key extends View
 
     public String getKeyMeaning()
     {
-        /* TODO - Add Functionality here...!
-        return keysOrganizer.getMeaningStringFromKey(KeySerialNum, KeyState);
-         */
-        return "";
+        return mKeysOrganizer.getKeyMeaning(mSerialNum, mState);
     }
 
     /**
@@ -165,7 +159,7 @@ public class Key extends View
         if (tag == null)
             return;
 
-        canvas.drawColor(Color.BLACK);          // Drawing the whole key as a black square..
+        canvas.drawColor(Color.GRAY);//BLACK);          // Drawing the whole key as a black square..
 
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);

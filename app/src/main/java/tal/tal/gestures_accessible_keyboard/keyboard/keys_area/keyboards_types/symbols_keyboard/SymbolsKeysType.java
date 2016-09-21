@@ -31,7 +31,7 @@ public class SymbolsKeysType extends AKeyType
     }
 
     @Override
-    public boolean IsRegularKey(int KeySerialNum)       // TODO - CHECK IF REALLY NEEDED..!!
+    public boolean IsRegularKey(int KeySerialNum)
     {
         if (KeySerialNum < 9)
             return true;
@@ -108,25 +108,27 @@ public class SymbolsKeysType extends AKeyType
 
         return Rows;
     }
-/*
+
     @Override
-    public View getEnterKeyView(View v)
+    public Key getEnterKey(View v)
     {
-        return v.findViewById(R.id.Sym_Custom_Key10);
+        return (Key) v.findViewById(R.id.Sym_Custom_Key10);
     }
 
+/*
     @Override
     public boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState)
     {
         //TODO - UNIMPLEMENTED! - IMPLEMENT!!!
         return false;
     }
+    */
+    
     @Override
     public View getKeysViewLayoutRoot(View v)
     {
         return v.findViewById(R.id.Sym_Custom_Layout_Root);
     }
-    */
 
     public void InitKeyMapper()
     {
@@ -177,7 +179,7 @@ public class SymbolsKeysType extends AKeyType
         KeyMapper.put(String.valueOf(8 + 300), "(");
         KeyMapper.put(String.valueOf(8 + 400), ")");
 
-        // TODO - SOME OF THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
+        //SOME OF THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
         KeyMapper.put(String.valueOf(9 + 100), Consts.ENTER_KEY_NAME);
         KeyMapper.put(String.valueOf(9 + 200), Consts.HEBREW_SWITCH_KEY_NAME);
 

@@ -4,6 +4,13 @@
     <string name="subtype_accessible_keyboard">Accessible Keyboard</string>
     <string name="title_activity_settings">Keyboard Settings</string>
 
+    <string name="Previous">Previous</string>
+    <string name="Search">Search</string>
+    <string name="Enter">Enter</string>
+    <string name="Next">Next</string>
+    <string name="Send">Send</string>
+    <string name="Go">Go</string>
+
     <string name="HebTweet_1">.,!</string>
     <string name="HebTweet_2">ד</string>
     <string name="HebTweet_3">א</string>

@@ -31,7 +31,7 @@ public class HebrewKeysType extends AKeyType
     }
 
     @Override
-    public boolean IsRegularKey(int KeySerialNum)       // TODO - CHECK IF REALLY NEEDED..!!
+    public boolean IsRegularKey(int KeySerialNum)
     {
         if (KeySerialNum < 9)
             return true;
@@ -107,19 +107,20 @@ public class HebrewKeysType extends AKeyType
         String Map_Me = String.valueOf(KeySerialNum + 100 * KeyState);
         return mKeyMapper.get(Map_Me);
     }
-/*
+
+    @Override
+    public Key getEnterKey(View v)
+    {
+        return (Key) v.findViewById(R.id.Heb_Custom_Key10);
+    }
+
     @Override
     public View getKeysViewLayoutRoot(View v)
     {
         return v.findViewById(R.id.Heb_Custom_Layout_Root);
     }
 
-    @Override
-    public View getEnterKeyView(View v)
-    {
-        return v.findViewById(R.id.Heb_Custom_Key10);
-    }
-
+    /*
     @Override
     public boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState)
     {
@@ -170,7 +171,7 @@ public class HebrewKeysType extends AKeyType
         mKeyMapper.put(String.valueOf(6 + 200), "ש");
         mKeyMapper.put(String.valueOf(6 + 300), "ת");
 
-        // TODO - THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
+        // THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
         mKeyMapper.put(String.valueOf(9 + 100), Consts.ENTER_KEY_NAME);
         mKeyMapper.put(String.valueOf(9 + 200), Consts.SYMBOLS_SWITCH_KEY_NAME);
 

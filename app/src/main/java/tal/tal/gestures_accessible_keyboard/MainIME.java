@@ -1,6 +1,7 @@
 package tal.tal.gestures_accessible_keyboard;
 
 import android.inputmethodservice.InputMethodService;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -46,7 +47,6 @@ public class MainIME extends InputMethodService
 
         return mKeyboardView;
         // TODO - recheck with TweetMechnism's func that i'vn't forgot anything!
-
     }
 
     @Override
@@ -54,9 +54,33 @@ public class MainIME extends InputMethodService
     {
         super.onStartInputView(info, restarting);
 
-        /* TODO : ADD this function!
-        mKeysOrgainzer.RefreshEnterKeyIcon();
+        mKeysOrganizer.setActionKey(info);
+        mKeysOrganizer.setTypedText("");
+
+
+        int u1 = InputType.TYPE_CLASS_TEXT | InputType.TYPE_NUMBER_VARIATION_PASSWORD;
+        int u2 = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
+        int u3 = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;       // should be visible..??? according to the documentation.. it should...
+        int u4 = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD;
+
+        if (info.inputType == u1 || info.inputType == u2 || info.inputType == u3 || info.inputType == u4)
+        {
+            mKeysOrganizer.setIsTypedTextPassword(true);
+        } else
+        {
+            mKeysOrganizer.setIsTypedTextPassword(false);
+        }
+        /*
+
+        if (TweetView != null && keysOrganizer != null)
+        {
+            keysOrganizer.setKeysAreaOnTouchListener(TweetView);
+            keysOrganizer.mVibrationIsON = sharedPreferences.getBoolean(Consts.SharedPref_Vibrate_TAG, true);
+        }
+
         */
+
+
     }
 
     //region Setters & Getters
@@ -79,5 +103,6 @@ public class MainIME extends InputMethodService
     {
         this.mAKeyType = mAKeyType;
     }
+
     //endregion
 }

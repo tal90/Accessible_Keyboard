@@ -1,6 +1,7 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types;
 
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import java.util.HashMap;
 
@@ -9,19 +10,30 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
 
 
 /**
- * This interface helps to determine the type of a specific key..
+ * This abstract class represent a typical keyboard..
+ * TODO - Consider change this class name to 'ATypicalKeyboard'
  * Created by talra on 10-Mar-16.
  */
 public abstract class AKeyType
 {
     protected Key[] mKeys;               // shall i add 'Row[] Rows' ..??
+    protected EnterKeyTypes mEnterKeyType;
+    protected String mTypedText;
+    public enum EnterKeyTypes {   Enter,Search,Send,Go,Next,Previous,None,Unspecified     }
 
     public abstract String getKeyboardName();
     public abstract boolean IsRegularKey(int KeySerialNum);
-    public abstract String getMeaningStringFromKey(int KeySerialNum, int KeyState);      // TODO - THINK OF A BETTER NAME..!!
+    public abstract String getMeaningStringFromKey(int KeySerialNum, int KeyState);
     public abstract LinearLayout[] getRowsArray(View v);
     public abstract HashMap<String, String> getKeyMapper();
     public abstract View KeyboardInitializer(KeysOrganizer keysOrganizer);
+    public abstract Key getEnterKey(View v);
+    public abstract View getKeysViewLayoutRoot(View v);
+
+    public void setEnterKeyType(EnterKeyTypes enterKeyTypes)
+    {
+        this.mEnterKeyType = enterKeyTypes;
+    }
 
     public int getNumberOfKeys()
     {
@@ -32,10 +44,19 @@ public abstract class AKeyType
         return mKeys;
     }
 
+    public String getTypedText()
+    {
+        return mTypedText;
+    }
+
+    public void setTypedText(String typedText)
+    {
+        mTypedText = typedText;
+    }
+
     /*
 
     public abstract boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState);     // TODO - CHECK IF NEEDED..!! I THINK NOT..!
-    public abstract View getKeysViewLayoutRoot(View v);
     public abstract View getEnterKeyView(View v);
 
     //region TODO - MUST CHECK IF NEEDED..!!!!!

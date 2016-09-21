@@ -106,25 +106,25 @@ public class EnglishKeysType extends AKeyType
         return Rows;
     }
 
-    /*
     @Override
-    public View getEnterKeyView(View v)
+    public Key getEnterKey(View v)
     {
-        return v.findViewById(R.id.Eng_Custom_Key10);
+        return (Key) v.findViewById(R.id.Eng_Custom_Key10);
     }
 
+    /*
     @Override
     public boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState)
     {
         return mKeyMapper.get(KeySerialNum + 100 * KeyState).equals(Consts.ENGLISH_SWITCH_KEY_NAME);
     }
 
+*/
     @Override
     public View getKeysViewLayoutRoot(View v)
     {
         return v.findViewById(R.id.Eng_Custom_Layout_Root);
     }
-*/
 
     public void InitKeyMapper()
     {
@@ -169,7 +169,7 @@ public class EnglishKeysType extends AKeyType
         mKeyMapper.put(String.valueOf(8 + 300), "y");
         mKeyMapper.put(String.valueOf(8 + 400), "z");
 
-        // TODO - THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
+        // THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
         mKeyMapper.put(String.valueOf(9 + 100), Consts.ENTER_KEY_NAME);
         mKeyMapper.put(String.valueOf(9 + 200), Consts.HEBREW_SWITCH_KEY_NAME);
 
