@@ -1,5 +1,6 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.hebrew_keyboard;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -95,7 +96,7 @@ public class HebrewKeysType extends AKeyType
             mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));       // TODO - THIS IS WRONG!!! CHANGE HERE AND EVERY WHERE.. THE CONT.DESC IS A NUMBER RIGHT NOW..! FIX IT!
         }
 
-        return ViewRender;
+        return KeyboardView;
     }
 
     @Override

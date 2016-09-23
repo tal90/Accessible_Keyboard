@@ -32,6 +32,30 @@ public class ChiefTextView extends TextView
         this.mIsTypedTextPassword = mIsTypedTextPassword;
     }
 
+    public void SetTextInsideTheChief(String Str)       // TODO - recheck if ReImplementation needed..!!
+    {
+        if (mIsTypedTextPassword)
+        {
+            if (Str.length() > 1)
+            {
+                String start = Str.substring(0, Str.length() - 1);
+                String fs = "" + start.charAt(Str.length() - 1);
+                setText(GetStarsFromString(start) + fs);
+            } else setText(Str);
+        } else setText(Str);
+    }
+
+    public String GetStarsFromString(String str)       // TODO - recheck if ReImplementation needed..!!
+    {
+        String StarsString = "";
+        for (int i = 0; i < str.length(); i++)
+            StarsString += '*';
+
+        return StarsString;
+    }
+
+
+
     /*
     public void onFontSizeChanged(int newFontSize)      // TODO - RECHECK ABOUT THE SHAREDPREFS..
     {

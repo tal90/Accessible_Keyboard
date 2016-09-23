@@ -18,9 +18,9 @@ public abstract class AKeyType
 {
     protected Key[] mKeys;               // shall i add 'Row[] Rows' ..??
     protected EnterKeyTypes mEnterKeyType;
-    protected String mTypedText;
     public enum EnterKeyTypes {   Enter,Search,Send,Go,Next,Previous,None,Unspecified     }
 
+    public int mNumOfKeys = 12;
     public abstract String getKeyboardName();
     public abstract boolean IsRegularKey(int KeySerialNum);
     public abstract String getMeaningStringFromKey(int KeySerialNum, int KeyState);
@@ -35,6 +35,11 @@ public abstract class AKeyType
         this.mEnterKeyType = enterKeyTypes;
     }
 
+    public EnterKeyTypes getEnterKeyType()
+    {
+        return mEnterKeyType;
+    }
+
     public int getNumberOfKeys()
     {
         return 12;
@@ -44,6 +49,16 @@ public abstract class AKeyType
         return mKeys;
     }
 
+    public Key getKeyBySerialNumber(int SerialNumber)
+    {
+        if (SerialNumber < mNumOfKeys && SerialNumber >= 0)
+            return mKeys[SerialNumber];
+        return null;
+    }
+
+    /*   // TODO - Well i thought that the typedtext should be here.. but.. i don't think that way anymore..
+
+    protected String mTypedText;
     public String getTypedText()
     {
         return mTypedText;
@@ -53,6 +68,7 @@ public abstract class AKeyType
     {
         mTypedText = typedText;
     }
+     */
 
     /*
 

@@ -18,7 +18,6 @@ public class MainIME extends InputMethodService
 {
     private static final String TAG = "MainIME";
     private View mKeyboardView = null;
-    private AKeyType mAKeyType = null;
     private KeysOrganizer mKeysOrganizer = null;
 
 
@@ -40,10 +39,8 @@ public class MainIME extends InputMethodService
             keyboardType = KeysOrganizer.KeyboardsTypes.English;        // Switch to the Default for other languages - English keyboard..
         }
 
-
         mKeysOrganizer = new KeysOrganizer(getApplicationContext(), this);
-        mKeyboardView = mKeysOrganizer.switchKeyboardType("", keyboardType);
-
+        mKeyboardView = mKeysOrganizer.switchKeyboardType("", keyboardType, true);
 
         return mKeyboardView;
         // TODO - recheck with TweetMechnism's func that i'vn't forgot anything!
@@ -53,6 +50,7 @@ public class MainIME extends InputMethodService
     public void onStartInputView(EditorInfo info, boolean restarting)
     {
         super.onStartInputView(info, restarting);
+        Log.v(TAG, "onStartInputView");
 
         mKeysOrganizer.setActionKey(info);
         mKeysOrganizer.setTypedText("");
@@ -70,14 +68,14 @@ public class MainIME extends InputMethodService
         {
             mKeysOrganizer.setIsTypedTextPassword(false);
         }
-        /*
 
+
+        /*
         if (TweetView != null && keysOrganizer != null)
         {
             keysOrganizer.setKeysAreaOnTouchListener(TweetView);
             keysOrganizer.mVibrationIsON = sharedPreferences.getBoolean(Consts.SharedPref_Vibrate_TAG, true);
         }
-
         */
 
 
@@ -92,16 +90,6 @@ public class MainIME extends InputMethodService
     public void setKeyboardView(View mKeyboardView)
     {
         this.mKeyboardView = mKeyboardView;
-    }
-
-    public AKeyType getAKeyType()
-    {
-        return mAKeyType;
-    }
-
-    public void setAKeyType(AKeyType mAKeyType)
-    {
-        this.mAKeyType = mAKeyType;
     }
 
     //endregion

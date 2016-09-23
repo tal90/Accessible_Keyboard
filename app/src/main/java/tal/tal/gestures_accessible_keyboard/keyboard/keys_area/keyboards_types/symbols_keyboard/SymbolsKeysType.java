@@ -81,7 +81,7 @@ public class SymbolsKeysType extends AKeyType
             mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));
         }
 
-        return ViewRender;
+        return KeyboardView;
     }
 
     @Override
@@ -123,7 +123,7 @@ public class SymbolsKeysType extends AKeyType
         return false;
     }
     */
-    
+
     @Override
     public View getKeysViewLayoutRoot(View v)
     {

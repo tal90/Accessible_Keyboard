@@ -2,11 +2,14 @@ package tal.tal.gestures_accessible_keyboard.keyboard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 
 import tal.tal.gestures_accessible_keyboard.MainIME;
 import tal.tal.gestures_accessible_keyboard.R;
@@ -17,11 +20,13 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.c
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.english_keyboard.EnglishKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.hebrew_keyboard.HebrewKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.symbols_keyboard.SymbolsKeysType;
+import tal.tal.gestures_accessible_keyboard.keyboard.methods.IMethodHandlers;
+import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodOneHandler;
 
 /**
  * Created by talra on 24-Aug-16.
  */
-public class KeysOrganizer
+public class KeysOrganizer implements IKeysOperations
 {
     private static final String TAG = "KeysOrganizer";
     private Context mContext = null;
@@ -29,6 +34,9 @@ public class KeysOrganizer
     private View mKeyboardView = null;
     private ChiefTextView mChiefTextView = null;
     private AKeyType mAKeyType = null;
+    private IMethodHandlers mIMethodHandlers = null;
+    private Vibrator mVibrator;
+    public boolean mVibrationIsON = true;
 
     public enum KeyboardsTypes
     {
@@ -38,11 +46,12 @@ public class KeysOrganizer
 
     public KeysOrganizer(Context context, MainIME mainIME)
     {
+        Log.v(TAG, "KeysOrganizer Constructor");
         mContext = context;
         mMainIME = mainIME;
     }
 
-    public View switchKeyboardType(String PassedStr, final KeyboardsTypes keyboardType)
+    public View switchKeyboardType(String PassedStr, final KeyboardsTypes keyboardType, boolean isOnCreateCall)
     {
         Log.v(TAG, "switchKeyboadType");
         mKeyboardView = null;
@@ -65,8 +74,9 @@ public class KeysOrganizer
         }
 
         mKeyboardView = mAKeyType.KeyboardInitializer(this);
-        setUpChiefTextView(PassedStr); // HOPPA!!! - moved from mechnizsm!
+        setUpChiefTextView(PassedStr); // TODO !!!! - lahzor Le ZE!! REIMPLEMENT!!!
         setMethodHandler(mKeyboardView);
+        //    if (!isOnCreateCall)
         mMainIME.setInputView(mKeyboardView);       // REREAD DOCUMNETATION - NEEDED ONLY WHILE SWITCHING KEYBOARD WITH A BUTTON..
 
         return mKeyboardView;
@@ -74,6 +84,7 @@ public class KeysOrganizer
 
     public void setActionKey(EditorInfo editorInfo)
     {
+        Log.v(TAG, "setActionKey");
         int mask = editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION;        // mask would help to determine the 'Enter' Key type..
         Key enterKey = getEnterKey();
         String str;
@@ -149,10 +160,14 @@ public class KeysOrganizer
 
     public void setUpChiefTextView(String PassedStr)
     {
-        // TODO - Implement! from mechinsm with changes..!
-        // TODO - most implementation would appear in the 'chiefs' class..!!!
+        Log.v(TAG, "setUpChiefTextView");
+        // TODO - Implement! from mechinsm with changes..!!!!
+        // TODO - most implementation would appear in the 'chiefs' class..!!!!
 
         // MAY include - settext(PassedStr)..
+
+        // debug!! - for now // TODO - MAKE IT GOOD!!!
+        mChiefTextView = new ChiefTextView(mContext);
     }
 
     public void setMethodHandler(View v)
@@ -163,6 +178,7 @@ public class KeysOrganizer
 
         if (Layout_Root == null)
             return;
+
 
         switch (getUsedMethodNumber())
         {
@@ -201,8 +217,125 @@ public class KeysOrganizer
 */
         }
 
+        // Debuggggg!! erase later..!!
+        MethodOneHandler MOH = new MethodOneHandler(this, 100);//getCompatibleSwipeMinDistance(Layout_Root));
+        Layout_Root.setOnTouchListener(MOH);
+        Layout_Root.setOnHoverListener(MOH);
+        mIMethodHandlers = MOH;
+
+
+
     }
 
+    @Override
+    public void BackSpaceKeyClick(IMethodHandlers Method)
+    {
+        InputConnection ic = mMainIME.getCurrentInputConnection();
+
+        if (Method.DeleteLastTypedTextCharacter())
+            SetTextInsideTheChief(Method.getTypedText());
+        else ic.deleteSurroundingText(1, 0);
+    }
+
+    @Override
+    public void SetTextInsideTheChief(String str)
+    {
+        mChiefTextView.SetTextInsideTheChief(str);
+    }
+
+    @Override
+    public void DropToTextEditor(String string)
+    {
+        InputConnection ic = mMainIME.getCurrentInputConnection();
+        ic.commitText(string, 1);
+    }
+
+    @Override
+    public void FlushFromChiefAndCurrWord()
+    {
+        String TypedTxt = mIMethodHandlers.getTypedText();
+        if (TypedTxt.length() > 0 || mChiefTextView.getText().length() > 0)
+        {
+            InputConnection ic = mMainIME.getCurrentInputConnection();
+            ic.commitText(TypedTxt, 1);
+            mIMethodHandlers.SetTypedTextAnEmptyString();
+            SetTextInsideTheChief("");
+        }
+    }
+
+
+    public void CommittingAnIrregularKey(String ClickedKeyName)
+    {
+        Log.v(TAG, "CommittingAnIrregularKey " + ClickedKeyName);
+        switch (ClickedKeyName)
+        {
+            case Consts.SPACE_KEY_NAME:
+                FlushFromChiefAndCurrWord();
+                DropToTextEditor(" ");
+                break;
+            // TODO - STOPPED HERE!!!
+            case Consts.BACKSPACE_KEY_NAME:
+                Key BS = mAKeyType.getKeyBySerialNumber(11);
+                BS.setContentDescription("");
+                MediaPlayer md = MediaPlayer.create(mContext, R.raw.woosh_del_sound);
+                md.setLooping(false);
+                md.start();
+                BackSpaceKeyClick(mIMethodHandlers);
+                BS.setContentDescription(Consts.BACKSPACE_KEY_NAME);
+                break;
+            case Consts.ENTER_KEY_NAME:
+                EnterKeyClick();
+                break;
+            case Consts.SYMBOLS_SWITCH_KEY_NAME:
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.Symbols, false);
+                break;
+            case Consts.ENGLISH_SWITCH_KEY_NAME:
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.English, false);
+                break;
+            case Consts.HEBREW_SWITCH_KEY_NAME:
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.Hebrew, false);
+                break;
+            case Consts.CAPITAL_ENGLISH_SWITCH_KEY_NAME:
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.CapitalEnglish, false);
+                break;
+        }
+    }
+
+
+    public void EnterKeyClick()
+    {
+        InputConnection ic = mMainIME.getCurrentInputConnection();
+        FlushFromChiefAndCurrWord();
+
+        AKeyType.EnterKeyTypes CurrEnterType = mAKeyType.getEnterKeyType();
+
+        if (CurrEnterType == AKeyType.EnterKeyTypes.Search)
+            ic.performEditorAction(EditorInfo.IME_ACTION_SEARCH);
+        else if (CurrEnterType == AKeyType.EnterKeyTypes.Send)
+            ic.performEditorAction(EditorInfo.IME_ACTION_SEND);
+        else if (CurrEnterType == AKeyType.EnterKeyTypes.Go)
+            ic.performEditorAction(EditorInfo.IME_ACTION_GO);
+        else if (CurrEnterType == AKeyType.EnterKeyTypes.Next)
+            ic.performEditorAction(EditorInfo.IME_ACTION_NEXT);
+        else if (CurrEnterType == AKeyType.EnterKeyTypes.Previous)
+            ic.performEditorAction(EditorInfo.IME_ACTION_PREVIOUS);
+        else                                            // a regular 'ENTER'..
+            ic.commitText("\n", 1);
+    }
+
+
+    public void VibrateAfterKeyPressed()
+    {
+        if (!mVibrationIsON)
+            return;
+        if (mVibrator == null)
+            mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+
+        mVibrator.vibrate(55);
+    }
+
+
+    // region Setters & Getters
     public String getKeyMeaning(int KeySerialNum, int KeyState)
     {
         if (mAKeyType == null)
@@ -220,7 +353,7 @@ public class KeysOrganizer
 
     public void setTypedText(String typedText)
     {
-        mAKeyType.setTypedText(typedText);
+        mIMethodHandlers.setTypedText(typedText);
         mChiefTextView.setText(typedText);
     }
 
@@ -238,5 +371,21 @@ public class KeysOrganizer
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         return sharedPreferences.getInt(Consts.SharedPref_Method_TAG, 1);
     }
+
+    public String getKeyboardName()
+    {
+        return mAKeyType.getKeyboardName();
+    }
+
+    public boolean IsRegularKey(int KeySerialNumber)
+    {
+        return mAKeyType.IsRegularKey(KeySerialNumber);
+    }
+
+    public View getKeysLayoutRoot()
+    {
+        return mAKeyType.getKeysViewLayoutRoot(mKeyboardView);
+    }
+    // endregion
 
 }

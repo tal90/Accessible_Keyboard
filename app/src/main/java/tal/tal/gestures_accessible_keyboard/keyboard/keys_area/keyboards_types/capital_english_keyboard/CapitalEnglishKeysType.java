@@ -80,7 +80,7 @@ public class CapitalEnglishKeysType extends AKeyType
             mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));
         }
 
-        return ViewRender;
+        return KeyboardView;
     }
 
     @Override
