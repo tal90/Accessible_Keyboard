@@ -39,6 +39,10 @@ public class MainIME extends InputMethodService
             keyboardType = KeysOrganizer.KeyboardsTypes.English;        // Switch to the Default for other languages - English keyboard..
         }
 
+        // DEBUGGGG
+        keyboardType = KeysOrganizer.KeyboardsTypes.English;
+
+
         mKeysOrganizer = new KeysOrganizer(getApplicationContext(), this);
         mKeyboardView = mKeysOrganizer.switchKeyboardType("", keyboardType, true);
 

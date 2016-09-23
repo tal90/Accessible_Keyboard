@@ -6,7 +6,8 @@
               android:layout_gravity="bottom"
               android:gravity="bottom"
               android:background="@color/Wrapping_Layout_Background">
-    <TextView
+    <!--  <TextView   -->
+    <tal.tal.gestures_accessible_keyboard.keyboard.chief_text_view.ChiefTextView
         android:id="@+id/Attached_Chief_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

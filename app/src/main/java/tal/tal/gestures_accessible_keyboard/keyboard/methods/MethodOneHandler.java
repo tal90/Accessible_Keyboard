@@ -1,5 +1,7 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.methods;
 
+import android.content.Context;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,33 +16,32 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
  */
 public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, View.OnHoverListener
 {
-    private static final String TAG = "MethodOneTouchHandler";
+    private static final String TAG = "MethodOneHandler";
     private KeysOrganizer mKeysOrganizer = null;
     private String mTypedText = "";
+    SpeechHelper mSpeechHelper = null;
     //region LocateTouchedKey Global Vars
     private int mLastTouchXCoords = 0;
     private int mLastTouchYCoords = 0;
     private Key mLastTouchedKey = null;
     //endregion
     //region DetectAndHandleValidSwipe Global Vars
-    private final int SWIPE_TIME_SLICE = 110;
+    private final int SWIPE_TIME_SLICE = 310;
     private long mLastTouchDownTime = 0;
     private int mMin_Swipe_Distance = 100;
     //endregion
     private View mKeysLayoutRoot = null;
     //region OnTouch Global Vars
     private float mDownX, mDownY, mUpX, mUpY;
+    //endregion
 
     public MethodOneHandler(KeysOrganizer _KeysOrganizer, int _Min_Swipe_Distance)
     {
         this.mKeysOrganizer = _KeysOrganizer;
         this.mMin_Swipe_Distance = _Min_Swipe_Distance;
+        mSpeechHelper = new SpeechHelper(mKeysOrganizer.getContext());
     }
     //endregion
-
-
-    // ADD CTOR!! - Would contain parameters - mKeysOrganizer, mMin_Swipe_Distance, ..
-
 
     @Override
     public boolean onHover(View view, MotionEvent motionEvent)
@@ -61,12 +62,18 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
                 mDownX = motionEvent.getX();
                 mDownY = motionEvent.getY();
                 mLastTouchDownTime = System.currentTimeMillis();
-                onKeyClick(LocateTouchedKey(view, motionEvent));
+                //        onKeyClick(LocateTouchedKey(view, motionEvent));
                 return true;
 
             case MotionEvent.ACTION_HOVER_EXIT:
             case MotionEvent.ACTION_UP:
-                // TODO - Don't forget upadting the value of 'mLastTouchDownTime'..!
+                mUpX = motionEvent.getX();
+                mUpY = motionEvent.getY();
+
+                if (DetectAndHandleValidSwipe(mDownX - mUpX, mDownY - mUpY))
+                    return true;
+
+                onKeyClick(LocateTouchedKey(view, motionEvent));
                 return true;
         }
         return false;
@@ -118,7 +125,8 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
                 }
             }
         }
-        return null;
+        //  Log.v(TAG, "Key IS NULLLLLLLLLLLLL!!!!!");
+        return mLastTouchedKey; //null;
     }
 
 
@@ -204,6 +212,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
+        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 
@@ -232,6 +241,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
+        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 
@@ -260,6 +270,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
+        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 
@@ -285,6 +296,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
+        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 
@@ -298,7 +310,6 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     {
         Log.v(TAG, key.getKeyMeaning() + " Key Clicked!");
 
-        // TODO - Implement!
         if (mKeysOrganizer.IsRegularKey(key.getSerialNum()))
         {
             ConcatenateToTypedTextAndChief(key.getKeyMeaning());
@@ -344,6 +355,44 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
         mTypedText = str;
     }
     //endregion
+
+    private class SpeechHelper
+    {
+        TextToSpeech mTextToSpeech = null;
+        Context mContext = null;
+
+        public SpeechHelper(Context mContext)
+        {
+            this.mContext = mContext;
+            InitTextToSpeech();
+        }
+
+        public void ReadDescription(String DescStr)
+        {
+            Log.v(TAG, "SpeechHelper - ReadDescription - " + DescStr);
+
+            if (mTextToSpeech == null)
+                InitTextToSpeech();
+
+            mTextToSpeech.speak(DescStr, TextToSpeech.QUEUE_FLUSH, null);
+        }
+
+        private void InitTextToSpeech()
+        {
+            mTextToSpeech = new TextToSpeech(mContext, new TextToSpeech.OnInitListener()
+            {
+                @Override
+                public void onInit(int i)
+                {
+                    //TODO - RETHINK ABOUT THIS!
+                    /*
+                    if (initStatus == TextToSpeech.SUCCESS)
+                    {  myTTS.setLanguage(Locale.US);}
+                    */
+                }
+            });
+        }
+    }
 }
 
     /*              // TODO - This code was at the 8th line in the function DetectAndHandleValidSwipe.. this code checks if the current key is del or space.. and if yes, return false.. i dont know y i need this - meanwhile this is here.. for later use..
@@ -352,3 +401,13 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
         if (mkeysOrganizer.IsKeyBackSpace(LastTouchedKeySerialNumber, LastTouchedKeyState) || mkeysOrganizer.IsKeyDelete(LastTouchedKeySerialNumber, LastTouchedKeyState))
             return false;
          */
+
+
+                /* WAS UNDER 'ACTION_UP' - on onTouch Function..!
+                if (System.currentTimeMillis() - mLastTouchDownTime < 250)      // Checking for short click.. problem is.. talkback reads the letter even if its a short click.. user might think that it has been clicked...
+                {
+                    mSpeechHelper.ReadDescription("SS");
+                    Log.v(TAG, "TOO SHORT CLICK..!");
+                    return false;
+                }
+                */

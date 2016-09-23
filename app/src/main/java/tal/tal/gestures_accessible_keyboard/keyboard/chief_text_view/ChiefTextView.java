@@ -3,9 +3,13 @@ package tal.tal.gestures_accessible_keyboard.keyboard.chief_text_view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import tal.tal.gestures_accessible_keyboard.keyboard.Consts;
@@ -15,6 +19,7 @@ import tal.tal.gestures_accessible_keyboard.keyboard.Consts;
  */
 public class ChiefTextView extends TextView
 {
+    private static final String TAG = "ChiefTextView";
     private int mFontSize;
     private Context mContext;
     private boolean mIsTypedTextPassword = false;
@@ -25,6 +30,7 @@ public class ChiefTextView extends TextView
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mFontSize = sharedPreferences.getInt(Consts.SharedPref_FontSize_TAG, 85);
         setTextSize(mFontSize);
+        this.setOnTouchListener(new ChiefTouchListener());
     }
 
     public void setIsTypedTextPassword(boolean mIsTypedTextPassword)
@@ -34,6 +40,7 @@ public class ChiefTextView extends TextView
 
     public void SetTextInsideTheChief(String Str)       // TODO - recheck if ReImplementation needed..!!
     {
+        Log.v(TAG, "SetTextInsideTheChief - " + Str);
         if (mIsTypedTextPassword)
         {
             if (Str.length() > 1)
@@ -43,6 +50,7 @@ public class ChiefTextView extends TextView
                 setText(GetStarsFromString(start) + fs);
             } else setText(Str);
         } else setText(Str);
+
     }
 
     public String GetStarsFromString(String str)       // TODO - recheck if ReImplementation needed..!!
@@ -54,19 +62,24 @@ public class ChiefTextView extends TextView
         return StarsString;
     }
 
+    @Override
+    public void draw(Canvas canvas)
+    {
+        super.draw(canvas);
+    }
 
 
     /*
-    public void onFontSizeChanged(int newFontSize)      // TODO - RECHECK ABOUT THE SHAREDPREFS..
-    {
-        mFontSize = newFontSize;
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        sharedPreferences.edit()
-                .putInt(Consts.SharedPref_FontSize_TAG, mFontSize)
-                .commit();
-    }
+        public void onFontSizeChanged(int newFontSize)      // TODO - RECHECK ABOUT THE SHAREDPREFS..
+        {
+            mFontSize = newFontSize;
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            sharedPreferences.edit()
+                    .putInt(Consts.SharedPref_FontSize_TAG, mFontSize)
+                    .commit();
+        }
 
-*/
+    */
     //region Constructors
     public ChiefTextView(Context context)
     {
@@ -93,4 +106,14 @@ public class ChiefTextView extends TextView
         setUpChief(context);
     }
     //endregion
+
+    private class ChiefTouchListener implements View.OnTouchListener
+    {
+        // TODO - implement!!
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent)
+        {
+            return false;
+        }
+    }
 }

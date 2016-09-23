@@ -20,6 +20,7 @@ public abstract class AKeyType
     protected EnterKeyTypes mEnterKeyType;
     public enum EnterKeyTypes {   Enter,Search,Send,Go,Next,Previous,None,Unspecified     }
 
+    private boolean mMethod2KeysAllSetFlag = false;
     public int mNumOfKeys = 12;
     public abstract String getKeyboardName();
     public abstract boolean IsRegularKey(int KeySerialNum);
@@ -54,6 +55,16 @@ public abstract class AKeyType
         if (SerialNumber < mNumOfKeys && SerialNumber >= 0)
             return mKeys[SerialNumber];
         return null;
+    }
+
+    public void setMethod2KeysAllSetFlag(boolean val)
+    {
+        mMethod2KeysAllSetFlag = val;
+    }
+
+    public boolean getMethod2KeysAllSetFlag()
+    {
+        return mMethod2KeysAllSetFlag;
     }
 
     /*   // TODO - Well i thought that the typedtext should be here.. but.. i don't think that way anymore..

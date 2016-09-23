@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.widget.TextView;
 
 import tal.tal.gestures_accessible_keyboard.MainIME;
 import tal.tal.gestures_accessible_keyboard.R;
@@ -22,6 +23,7 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.h
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.symbols_keyboard.SymbolsKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.IMethodHandlers;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodOneHandler;
+import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodTwoHandler;
 
 /**
  * Created by talra on 24-Aug-16.
@@ -167,7 +169,7 @@ public class KeysOrganizer implements IKeysOperations
         // MAY include - settext(PassedStr)..
 
         // debug!! - for now // TODO - MAKE IT GOOD!!!
-        mChiefTextView = new ChiefTextView(mContext);
+        mChiefTextView = (ChiefTextView) mKeyboardView.findViewById(R.id.Attached_Chief_TextView);
     }
 
     public void setMethodHandler(View v)
@@ -184,44 +186,25 @@ public class KeysOrganizer implements IKeysOperations
         {
             case 1:
                 /*
-                MethodOneTouchHandler MOTH = new MethodOneTouchHandler(this, getCompatibleSwipeMinDistance(Layout_Root));
-                Layout_Root.setOnTouchListener(MOTH);
-                if (mTweetMechanism.IsTalkBackActive())
-                    Layout_Root.setOnHoverListener(MOTH);
-                mMethodInUse = MOTH;
+                MethodOneHandler MOH = new MethodOneHandler(this, 100); // getCompatibleSwipeMinDistance(Layout_Root));
+                Layout_Root.setOnTouchListener(MOH);
+                Layout_Root.setOnHoverListener(MOH);
+                mIMethodHandlers = MOH;
                 return;
                 */
             case 2:
                 /*
-                MethodTwoTouchHandler MTTH = new MethodTwoTouchHandler(this);
-                Layout_Root.setOnTouchListener(MTTH);
-                if (mTweetMechanism.IsTalkBackActive())
-                {
-                    Layout_Root.setOnHoverListener(MTTH);
-                    MTTH.SetIsTalkBackActive(true);
-                }
-                mMethodInUse = MTTH;
-                return;
+
                 */
             case 3:
                 /*
-                MethodThreeTouchHandler M3TH = new MethodThreeTouchHandler(this);
-                Layout_Root.setOnTouchListener(M3TH);
-                if (mTweetMechanism.IsTalkBackActive())
-                {
-                    Layout_Root.setOnHoverListener(M3TH);
-                    M3TH.SetIsTalkBackActive(true);
-                }
-                mMethodInUse = M3TH;
-                return;
-*/
+
+                */
         }
 
         // Debuggggg!! erase later..!!
-        MethodOneHandler MOH = new MethodOneHandler(this, 100);//getCompatibleSwipeMinDistance(Layout_Root));
-        Layout_Root.setOnTouchListener(MOH);
-        Layout_Root.setOnHoverListener(MOH);
-        mIMethodHandlers = MOH;
+        MethodTwoHandler MTH = new MethodTwoHandler(this);//getCompatibleSwipeMinDistance(Layout_Root));
+        mIMethodHandlers = MTH;
 
 
 
@@ -385,6 +368,26 @@ public class KeysOrganizer implements IKeysOperations
     public View getKeysLayoutRoot()
     {
         return mAKeyType.getKeysViewLayoutRoot(mKeyboardView);
+    }
+
+    public Context getContext()
+    {
+        return mContext;
+    }
+
+    public boolean getMethod2KeysAllSetFlag()
+    {
+        return mAKeyType.getMethod2KeysAllSetFlag();
+    }
+
+    public void setMethod2KeysAllSetFlag(boolean Value)
+    {
+        mAKeyType.setMethod2KeysAllSetFlag(Value);
+    }
+
+    public Key[] getKeys()
+    {
+        return mAKeyType.getKeys();
     }
     // endregion
 
