@@ -1,10 +1,13 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.methods;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import tal.tal.gestures_accessible_keyboard.keyboard.KeysOrganizer;
+import tal.tal.gestures_accessible_keyboard.keyboard.Speech.SpeechHelper;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
 
 /**
@@ -15,31 +18,73 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
     private static final String TAG = "MethodTwoHandler";
     private KeysOrganizer mKeysOrganizer = null;
     private String mTypedText = "";
-
+    private SpeechHelper mSpeechHelper = null;
+    //region LocateTouchedKey Global Vars
+    private int mLastTouchXCoords = 0;
+    private int mLastTouchYCoords = 0;
+    private Key mLastTouchedKey = null;
+    //endregion
+    private int mFingerCounter = 0;
+    private long mLastTouchDownTime = 0;
+    private final int KEY_SELECTION_TIME_WINDOW = 1000;
 
     public MethodTwoHandler(KeysOrganizer mKeysOrganizer)
     {
         Log.v(TAG, "MethodTwoHandler - Constructor");
         this.mKeysOrganizer = mKeysOrganizer;
-        SetAllKeys();
+        mSpeechHelper = new SpeechHelper(mKeysOrganizer.getContext());
     }
 
-    public void SetAllKeys()
+
+    public Key LocateTouchedKey(View v, MotionEvent motionEvent)
     {
-        Log.v(TAG, "SetAllKeys");
-        if (mKeysOrganizer.getMethod2KeysAllSetFlag())
-            return;
+        float X_Axis = motionEvent.getX();
+        float Y_Axis = motionEvent.getY();
+        int xLeft = (int) X_Axis;
+        int yUp = (int) Y_Axis;
 
-        Key[] AllKeys = mKeysOrganizer.getKeys();
-
-        for (Key key : AllKeys)
+        if (xLeft == mLastTouchXCoords && yUp == mLastTouchYCoords && mLastTouchedKey != null)        // this exact touch has been occurred a moment ago..
         {
-            key.setOnTouchListener(this);
-            key.setOnHoverListener(this);
+            return mLastTouchedKey;
         }
 
-        mKeysOrganizer.setMethod2KeysAllSetFlag(true);
+        mLastTouchXCoords = xLeft;
+        mLastTouchYCoords = yUp;
+
+
+        for (int i = 0; i < ((ViewGroup) v).getChildCount(); i++)
+        {
+            View tmpRow = ((ViewGroup) v).getChildAt(i);
+            Object tmpRowTag = tmpRow.getTag();
+
+            if (tmpRowTag != null && tmpRowTag.equals("row"))
+            {
+                boolean isInRow = (tmpRow.getLeft() <= X_Axis && X_Axis <= tmpRow.getRight() &&
+                        tmpRow.getTop() <= Y_Axis && Y_Axis <= tmpRow.getBottom());
+
+                if (!isInRow)
+                    continue;
+
+                float X_Coordinate = X_Axis - tmpRow.getLeft();
+                float Y_Coordinate = Y_Axis - tmpRow.getTop();
+
+                for (int j = 0; j < ((ViewGroup) tmpRow).getChildCount(); j++)
+                {
+                    View nextChild = ((ViewGroup) tmpRow).getChildAt(j);
+
+                    if (nextChild.getLeft() <= X_Coordinate && X_Coordinate <= nextChild.getRight() &&
+                            nextChild.getTop() <= Y_Coordinate && Y_Coordinate <= nextChild.getBottom())
+                    {
+                        mLastTouchedKey = (Key) nextChild;
+                        return mLastTouchedKey;
+                    }
+                }
+            }
+        }
+        //  Log.v(TAG, "Key IS NULLLLLLLLLLLLL!!!!!");
+        return mLastTouchedKey;
     }
+
 
     //region Override Methods - IMethodHandlers
     @Override
@@ -71,6 +116,8 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
             mKeysOrganizer.CommittingAnIrregularKey(key.getKeyMeaning());
         }
         mKeysOrganizer.VibrateAfterKeyPressed();
+
+        key.setState(1);
     }
 
     @Override
@@ -104,20 +151,58 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {
-        Key k = (Key) view;
         switch (motionEvent.getAction())
         {
             case MotionEvent.ACTION_HOVER_ENTER:
             case MotionEvent.ACTION_DOWN:
-                Log.v(TAG, k.getKeyMeaning() + " - ACTION DOWN!!");
-                Log.v(TAG, "NUM OF Fingers = " + motionEvent.getPointerCount());
+                Log.v(TAG, "ACTION_DOWN!");
+                mFingerCounter = 0;
+                if (System.currentTimeMillis() - mLastTouchDownTime < 2000)
+                {
+                    Log.v(TAG, "ACTION TERMINATED!");
+                    return true;
+                }
+
+                onKeyClick(LocateTouchedKey(view, motionEvent));
+                mLastTouchDownTime = System.currentTimeMillis();
                 return true;
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                Log.v(TAG, "ACTION_MOVE!");
+                int tmpFingercount = motionEvent.getPointerCount();
+                if (tmpFingercount > 4)
+                    return false;
+
+                int LastClickedKeySerial;
+                if (mLastTouchedKey == null)
+                    LastClickedKeySerial = -1;
+                else LastClickedKeySerial = mLastTouchedKey.getSerialNum();
+                mLastTouchedKey = LocateTouchedKey(view, motionEvent);
+
+                // if same key pressed
+                if (LastClickedKeySerial == mLastTouchedKey.getSerialNum())
+                {
+                    // if same key but with different number of clicked fingers
+                    if (tmpFingercount != mFingerCounter)
+                    {
+                        mFingerCounter = tmpFingercount;
+                        mLastTouchedKey.setState(mFingerCounter);
+                        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
+                        mKeysOrganizer.BackSpaceKeyClick(this);
+                        onKeyClick(mLastTouchedKey);
+                        return true;
+                    } else return true;               // same key same fingers pressing
+                }
+                //        if (isSelectingTimeWindowIsUp())
+                //- OKKKK.. WORKING ON IT..!
+                Log.v(TAG, "LastClickedKeySerial = " + LastClickedKeySerial + ", mLastTouchedKey.getSerialNum() = " + mLastTouchedKey.getSerialNum());
+                mKeysOrganizer.BackSpaceKeyClick(this);
+                onKeyClick(mLastTouchedKey);
+                return true;
+
 
             case MotionEvent.ACTION_HOVER_EXIT:
             case MotionEvent.ACTION_UP:
-                Log.v(TAG, k.getKeyMeaning() + " - ACTION UP!!");
-                Log.v(TAG, "NUM OF Fingers = " + motionEvent.getPointerCount());
-                
                 return true;
         }
         return false;
@@ -125,4 +210,9 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
 
     //endregion
 
+
+    public boolean isSelectingTimeWindowIsUp()
+    {//true if new selection should occur..!
+        return System.currentTimeMillis() - mLastTouchDownTime > KEY_SELECTION_TIME_WINDOW;
+    }
 }

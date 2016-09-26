@@ -20,7 +20,8 @@ public abstract class AKeyType
     protected EnterKeyTypes mEnterKeyType;
     public enum EnterKeyTypes {   Enter,Search,Send,Go,Next,Previous,None,Unspecified     }
 
-    private boolean mMethod2KeysAllSetFlag = false;
+    private boolean mMethod2KeysAllSetFlag = false;     // unneeded!!!! BUT.. MAYBE WITH METHOD 3.. SO.. THIS STAYS HERE..!
+
     public int mNumOfKeys = 12;
     public abstract String getKeyboardName();
     public abstract boolean IsRegularKey(int KeySerialNum);

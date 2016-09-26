@@ -203,7 +203,9 @@ public class KeysOrganizer implements IKeysOperations
         }
 
         // Debuggggg!! erase later..!!
-        MethodTwoHandler MTH = new MethodTwoHandler(this);//getCompatibleSwipeMinDistance(Layout_Root));
+        MethodTwoHandler MTH = new MethodTwoHandler(this);
+        Layout_Root.setOnTouchListener(MTH);
+        Layout_Root.setOnHoverListener(MTH);
         mIMethodHandlers = MTH;
 
 
@@ -380,7 +382,7 @@ public class KeysOrganizer implements IKeysOperations
         return mAKeyType.getMethod2KeysAllSetFlag();
     }
 
-    public void setMethod2KeysAllSetFlag(boolean Value)
+    public void setMethod2KeysAllSetFlag(boolean Value)         // TODO - wait to Method 3..!
     {
         mAKeyType.setMethod2KeysAllSetFlag(Value);
     }

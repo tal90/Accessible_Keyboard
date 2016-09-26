@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import tal.tal.gestures_accessible_keyboard.keyboard.Consts;
 import tal.tal.gestures_accessible_keyboard.keyboard.KeysOrganizer;
+import tal.tal.gestures_accessible_keyboard.keyboard.Speech.SpeechHelper;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
 
 /**
@@ -356,43 +357,6 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     }
     //endregion
 
-    private class SpeechHelper
-    {
-        TextToSpeech mTextToSpeech = null;
-        Context mContext = null;
-
-        public SpeechHelper(Context mContext)
-        {
-            this.mContext = mContext;
-            InitTextToSpeech();
-        }
-
-        public void ReadDescription(String DescStr)
-        {
-            Log.v(TAG, "SpeechHelper - ReadDescription - " + DescStr);
-
-            if (mTextToSpeech == null)
-                InitTextToSpeech();
-
-            mTextToSpeech.speak(DescStr, TextToSpeech.QUEUE_FLUSH, null);
-        }
-
-        private void InitTextToSpeech()
-        {
-            mTextToSpeech = new TextToSpeech(mContext, new TextToSpeech.OnInitListener()
-            {
-                @Override
-                public void onInit(int i)
-                {
-                    //TODO - RETHINK ABOUT THIS!
-                    /*
-                    if (initStatus == TextToSpeech.SUCCESS)
-                    {  myTTS.setLanguage(Locale.US);}
-                    */
-                }
-            });
-        }
-    }
 }
 
     /*              // TODO - This code was at the 8th line in the function DetectAndHandleValidSwipe.. this code checks if the current key is del or space.. and if yes, return false.. i dont know y i need this - meanwhile this is here.. for later use..

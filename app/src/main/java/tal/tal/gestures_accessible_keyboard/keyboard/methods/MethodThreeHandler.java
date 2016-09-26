@@ -8,6 +8,41 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
 public class MethodThreeHandler implements IMethodHandlers
 {
 
+    /*
+
+     public MethodTwoHandler(KeysOrganizer mKeysOrganizer)
+    {
+        Log.v(TAG, "MethodTwoHandler - Constructor");
+        this.mKeysOrganizer = mKeysOrganizer;
+        SetAllKeys();
+    }
+
+    public void SetAllKeys()
+    {
+        Log.v(TAG, "SetAllKeys");
+        if (mKeysOrganizer.getMethod2KeysAllSetFlag())
+            return;
+
+        Key[] AllKeys = mKeysOrganizer.getKeys();
+
+        for (Key key : AllKeys)
+        {
+            key.setOnTouchListener(this);
+            key.setOnHoverListener(this);
+        }
+
+        mKeysOrganizer.setMethod2KeysAllSetFlag(true);
+    }
+
+
+
+     */
+
+
+
+
+
+
     @Override
     public boolean DeleteLastTypedTextCharacter()
     {
