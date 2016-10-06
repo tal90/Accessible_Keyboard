@@ -56,9 +56,9 @@ public class MethodThreeHandler implements IMethodHandlers
     }
 
     @Override
-    public void onKeyClick(Key key)
+    public String onKeyClick(Key key)
     {
-
+        return "";
     }
 
     @Override

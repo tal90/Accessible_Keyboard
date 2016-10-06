@@ -9,3 +9,11 @@ leshalev et ze!
 
 onCreateInputView - in MainIME - at the end.. i shall maybe initiallize the 'TextTweeter'
 as i did in TweetKeys
+
+
+
+>>>>>>>>>>>>>>>>>>>>>> IMPORTANTE! >>>>>>>>>>>>>>>>>>>>
+WELL.. THERE IS A PROBLEM WITH MY DETECT KEY.. SOMETIMES IT'not functioning well..
+and returns the last perssed key again.. and in worse case.. null..
+i shall recheck this function in all methods and repair the fault..!!
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

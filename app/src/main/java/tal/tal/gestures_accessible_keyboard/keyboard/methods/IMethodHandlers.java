@@ -9,7 +9,7 @@ public interface IMethodHandlers
 {
     boolean DeleteLastTypedTextCharacter();
     String getTypedText();
-    void onKeyClick(Key key);
+    String onKeyClick(Key key);
     void ConcatenateToTypedTextAndChief(String string);
     void SetTypedTextAnEmptyString();
     void setTypedText(String str);

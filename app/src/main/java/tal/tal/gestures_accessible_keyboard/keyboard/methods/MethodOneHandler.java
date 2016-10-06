@@ -307,9 +307,10 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
     //region Override methods
     @Override
-    public void onKeyClick(Key key)
+    public String onKeyClick(Key key)
     {
-        Log.v(TAG, key.getKeyMeaning() + " Key Clicked!");
+        String ReturnedString = key.getKeyMeaning();
+        Log.v(TAG, ReturnedString + " Key Clicked!");
 
         if (mKeysOrganizer.IsRegularKey(key.getSerialNum()))
         {
@@ -319,6 +320,8 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
             mKeysOrganizer.CommittingAnIrregularKey(key.getKeyMeaning());
         }
         mKeysOrganizer.VibrateAfterKeyPressed();
+
+        return ReturnedString;
     }
 
     @Override

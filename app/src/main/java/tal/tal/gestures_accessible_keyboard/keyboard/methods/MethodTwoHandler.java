@@ -1,6 +1,5 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.methods;
 
-import android.provider.Settings;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +25,10 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
     //endregion
     private int mFingerCounter = 0;
     private long mLastTouchDownTime = 0;
-    private final int KEY_SELECTION_TIME_WINDOW = 1000;
+    private final int KEY_SELECTION_TIME_WINDOW = 300;
+    private String mLastKeyMeaning = "";
+    private long mDelayTimerTimeStamp = 0;
+    private boolean mDeleteLastChar = true;
 
     public MethodTwoHandler(KeysOrganizer mKeysOrganizer)
     {
@@ -104,9 +106,13 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
     }
 
     @Override
-    public void onKeyClick(Key key)
+    public String onKeyClick(Key key)
     {
-        Log.v(TAG, key.getKeyMeaning() + " Key Clicked!");
+        if (key == null)
+            return "";
+
+        String ReturnString = key.getKeyMeaning();
+        Log.v(TAG, ReturnString + " Key Clicked!");
 
         if (mKeysOrganizer.IsRegularKey(key.getSerialNum()))
         {
@@ -118,6 +124,8 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
         mKeysOrganizer.VibrateAfterKeyPressed();
 
         key.setState(1);
+
+        return ReturnString;
     }
 
     @Override
@@ -149,6 +157,163 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
     }
 
     @Override
+    public boolean onTouch(View view, MotionEvent motionEvent)
+    {
+        int tmpNumOfFingers = motionEvent.getPointerCount();
+
+        if (tmpNumOfFingers > 1)
+        {
+            if (tmpNumOfFingers > 4)
+                return false;
+
+            if (mLastTouchedKey == null)
+                return false;
+
+            if (mLastTouchedKey.getState() == tmpNumOfFingers)
+                return false;
+
+            if (mLastTouchedKey.getMaxStates() < tmpNumOfFingers)
+                return false;
+
+            if (!isFingerUpDelayTimerIsUp())
+            {
+                Log.v(TAG, "TIMERRRRR...");
+                return false;
+            }
+
+            if (mFingerCounter == tmpNumOfFingers + 1)
+            {
+                Log.v(TAG, "Avoiding System false events");
+                ResetFingerUpDelayTimer();
+                mFingerCounter = tmpNumOfFingers;
+                return false;
+            }
+
+            mFingerCounter = tmpNumOfFingers;
+
+            mLastTouchedKey.setState(tmpNumOfFingers);
+            mSpeechHelper.ReadDescription(mLastTouchedKey.getKeyMeaning());
+            Log.v(TAG, "CLICK OPTION 1");
+            ReplaceLastCharacter(mLastTouchedKey);
+            mLastTouchedKey.setState(tmpNumOfFingers);
+            return true;
+        }
+
+        switch (motionEvent.getAction())
+        {
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_DOWN:
+                Log.v(TAG, "ACTION_DOWN!");
+                mDeleteLastChar = true;
+                if (isStatePickerTimeIsUp())
+                {
+                    LocateTouchedKey(view, motionEvent);
+                    if (mKeysOrganizer.IsRegularKey(mLastTouchedKey.getSerialNum()))
+                    {
+                        Log.v(TAG, "CLICK OPTION 2");
+                        mLastKeyMeaning = onKeyClick(mLastTouchedKey);
+                    } else mDeleteLastChar = false;
+                }
+                ResetStatePickingTimer();
+                return true;
+
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                Log.v(TAG, "ACTION_MOVE!");
+
+                ResetStatePickingTimer();
+                int LastKeySerNum = mLastTouchedKey.getSerialNum();
+                LocateTouchedKey(view, motionEvent);
+                if (mLastTouchedKey.getSerialNum() == LastKeySerNum)        // Same Key Pressed
+                {
+                    mLastTouchedKey.setState(1);
+                    if (!mLastKeyMeaning.equals(mLastTouchedKey.getKeyMeaning()))
+                    {
+                        mSpeechHelper.ReadDescription(mLastTouchedKey.getKeyMeaning());
+                        Log.v(TAG, "CLICK OPTION 4");
+                        ReplaceKeyIfRegular(mLastTouchedKey);
+                    }
+                    return true;
+                } else                                                    // Another Key Was Pressed
+                {
+                    Log.v(TAG, "CLICK OPTION 3");
+                    ReplaceKeyIfRegular(LocateTouchedKey(view, motionEvent));
+                }
+
+                return true;
+
+
+            case MotionEvent.ACTION_HOVER_EXIT:
+            case MotionEvent.ACTION_UP:
+                Log.v(TAG, "ACTION_UP!");
+                SetAllKeysState(1);
+                if (mLastTouchedKey != null)
+                    if (!mKeysOrganizer.IsRegularKey(mLastTouchedKey.getSerialNum()))
+                        mLastKeyMeaning = onKeyClick(mLastTouchedKey);
+                return true;
+        }
+        return false;
+    }
+
+    //endregion
+
+
+    public void ResetStatePickingTimer()
+    {
+        mLastTouchDownTime = System.currentTimeMillis();
+    }
+
+    public boolean isStatePickerTimeIsUp()
+    {
+        return System.currentTimeMillis() - mLastTouchDownTime > KEY_SELECTION_TIME_WINDOW;
+    }
+
+    public void SetAllKeysState(int newState)
+    {
+        for (Key key : mKeysOrganizer.getKeys())
+        {
+            key.setState(newState);
+        }
+    }
+
+    public void ResetFingerUpDelayTimer()
+    {
+        mDelayTimerTimeStamp = System.currentTimeMillis();
+    }
+
+    public boolean isFingerUpDelayTimerIsUp()
+    {
+        return System.currentTimeMillis() > mDelayTimerTimeStamp + 10;
+    }
+
+    public boolean ReplaceKeyIfRegular(Key key)
+    {
+        if (mKeysOrganizer.IsRegularKey(key.getSerialNum()))
+        {
+            ReplaceLastCharacter(key);
+            return true;
+        }
+        return false;
+    }
+
+    public void ReplaceLastCharacter(Key key)
+    {
+        if (mDeleteLastChar)
+        {
+            mKeysOrganizer.BackSpaceKeyClick(this);
+            Log.v(TAG, "BackSpace click!");
+        } else
+        {
+            Log.v(TAG, "AVOIDED BACKSPACE!!!");
+            mDeleteLastChar = true;
+        }
+        mLastKeyMeaning = onKeyClick(key);
+    }
+}
+
+// BACKUP!
+/*
+ @Override
     public boolean onTouch(View view, MotionEvent motionEvent)
     {
         switch (motionEvent.getAction())
@@ -207,12 +372,4 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
         }
         return false;
     }
-
-    //endregion
-
-
-    public boolean isSelectingTimeWindowIsUp()
-    {//true if new selection should occur..!
-        return System.currentTimeMillis() - mLastTouchDownTime > KEY_SELECTION_TIME_WINDOW;
-    }
-}
+ */

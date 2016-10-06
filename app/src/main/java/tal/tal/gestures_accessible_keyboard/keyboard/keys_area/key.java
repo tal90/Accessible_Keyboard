@@ -145,6 +145,13 @@ public class Key extends View
         return mKeysOrganizer.getKeyMeaning(mSerialNum, mState);
     }
 
+    public String getSpecificKeyMeaning(int desiredState)
+    {
+        if (desiredState < 1)
+            return "";
+        return mKeysOrganizer.getKeyMeaning(mSerialNum, desiredState);
+    }
+
     /**
      * drawing the key..
      *
