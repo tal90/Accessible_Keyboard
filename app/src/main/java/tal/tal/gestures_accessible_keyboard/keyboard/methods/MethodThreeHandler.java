@@ -17,7 +17,6 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
     private static final String TAG = "MethodThreeHandler";
     private KeysOrganizer mKeysOrganizer = null;
     private String mTypedText = "";
-    private SpeechHelper mSpeechHelper = null;
     //region LocateTouchedKey Global Vars
     private int mLastTouchXCoords = 0;
     private int mLastTouchYCoords = 0;
@@ -34,7 +33,6 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
     {
         Log.v(TAG, "MethodThreeHandler - Constructor");
         this.mKeysOrganizer = mKeysOrganizer;
-        mSpeechHelper = new SpeechHelper(mKeysOrganizer.getContext());
     }
 
 
@@ -58,7 +56,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
 
             mLastTouchedKey.IncrementStateBy1();
             Log.v(TAG, "CLICK OPTION 5");
-            mSpeechHelper.ReadDescription(mLastTouchedKey.getKeyMeaning());
+            mKeysOrganizer.ReadDescription(mLastTouchedKey.getKeyMeaning());
             ReplaceKeyIfRegular(mLastTouchedKey);
             ResetStatePickingTimer();
 

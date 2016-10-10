@@ -29,6 +29,11 @@ public class SpeechHelper
         mTextToSpeech.speak(DescStr, TextToSpeech.QUEUE_FLUSH, null);
     }
 
+    public void Spell(String Str)
+    {
+        // tODO - IMPLEMENT!
+    }
+
     private void InitTextToSpeech()
     {
         mTextToSpeech = new TextToSpeech(mContext, new TextToSpeech.OnInitListener()

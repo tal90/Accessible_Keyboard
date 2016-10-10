@@ -17,7 +17,6 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
     private static final String TAG = "MethodTwoHandler";
     private KeysOrganizer mKeysOrganizer = null;
     private String mTypedText = "";
-    private SpeechHelper mSpeechHelper = null;
     //region LocateTouchedKey Global Vars
     private int mLastTouchXCoords = 0;
     private int mLastTouchYCoords = 0;
@@ -34,7 +33,6 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
     {
         Log.v(TAG, "MethodTwoHandler - Constructor");
         this.mKeysOrganizer = mKeysOrganizer;
-        mSpeechHelper = new SpeechHelper(mKeysOrganizer.getContext());
     }
 
 
@@ -192,7 +190,7 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
             mFingerCounter = tmpNumOfFingers;
 
             mLastTouchedKey.setState(tmpNumOfFingers);
-            mSpeechHelper.ReadDescription(mLastTouchedKey.getKeyMeaning());
+            mKeysOrganizer.ReadDescription(mLastTouchedKey.getKeyMeaning());
             Log.v(TAG, "CLICK OPTION 1");
             ReplaceLastCharacter(mLastTouchedKey);
             mLastTouchedKey.setState(tmpNumOfFingers);
@@ -229,7 +227,7 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
                     mLastTouchedKey.setState(1);
                     if (!mLastKeyMeaning.equals(mLastTouchedKey.getKeyMeaning()))
                     {
-                        mSpeechHelper.ReadDescription(mLastTouchedKey.getKeyMeaning());
+                        mKeysOrganizer.ReadDescription(mLastTouchedKey.getKeyMeaning());
                         Log.v(TAG, "CLICK OPTION 4");
                         ReplaceKeyIfRegular(mLastTouchedKey);
                     }

@@ -30,7 +30,7 @@ public class ChiefTextView extends TextView
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mFontSize = sharedPreferences.getInt(Consts.SharedPref_FontSize_TAG, 85);
         setTextSize(mFontSize);
-        this.setOnTouchListener(new ChiefTouchListener());
+        this.setOnClickListener(new ChiefTouchListener());
     }
 
     public void setIsTypedTextPassword(boolean mIsTypedTextPassword)
@@ -80,6 +80,7 @@ public class ChiefTextView extends TextView
         }
 
     */
+
     //region Constructors
     public ChiefTextView(Context context)
     {
@@ -107,13 +108,18 @@ public class ChiefTextView extends TextView
     }
     //endregion
 
-    private class ChiefTouchListener implements View.OnTouchListener
+    private class ChiefTouchListener implements View.OnClickListener
     {
-        // TODO - implement!!
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent)
-        {
-            return false;
+        public void onClick(View view)
+        {   // TODO - Check if there's any difference between regular text behaviour and password's behaviour
+            Log.v(TAG, "OnClick");
+
+            //SPEAK..???!! 
+
+
         }
+        // TODO - implement!!
+
     }
 }

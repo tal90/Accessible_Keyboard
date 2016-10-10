@@ -20,7 +20,6 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     private static final String TAG = "MethodOneHandler";
     private KeysOrganizer mKeysOrganizer = null;
     private String mTypedText = "";
-    SpeechHelper mSpeechHelper = null;
     //region LocateTouchedKey Global Vars
     private int mLastTouchXCoords = 0;
     private int mLastTouchYCoords = 0;
@@ -40,7 +39,6 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     {
         this.mKeysOrganizer = _KeysOrganizer;
         this.mMin_Swipe_Distance = _Min_Swipe_Distance;
-        mSpeechHelper = new SpeechHelper(mKeysOrganizer.getContext());
     }
     //endregion
 
@@ -213,7 +211,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
-        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
+        mKeysOrganizer.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 
@@ -242,7 +240,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
-        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
+        mKeysOrganizer.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 
@@ -271,7 +269,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
-        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
+        mKeysOrganizer.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 
@@ -297,7 +295,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
 
         mLastTouchedKey.setState(NewState);
         mKeysOrganizer.BackSpaceKeyClick(this);          // Every swipe deletes last character since the first pressing does invokes 'mLastTouchedKey.OnCurrKeyClick()'
-        mSpeechHelper.ReadDescription(mLastTouchedKey.getContentDescription().toString());
+        mKeysOrganizer.ReadDescription(mLastTouchedKey.getContentDescription().toString());
         onKeyClick(mLastTouchedKey);
     }
 

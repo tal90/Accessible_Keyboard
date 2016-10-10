@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import tal.tal.gestures_accessible_keyboard.MainIME;
 import tal.tal.gestures_accessible_keyboard.R;
+import tal.tal.gestures_accessible_keyboard.keyboard.Speech.SpeechHelper;
 import tal.tal.gestures_accessible_keyboard.keyboard.chief_text_view.ChiefTextView;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.AKeyType;
@@ -38,6 +39,7 @@ public class KeysOrganizer implements IKeysOperations
     private ChiefTextView mChiefTextView = null;
     private AKeyType mAKeyType = null;
     private IMethodHandlers mIMethodHandlers = null;
+    private SpeechHelper mSpeechHelper = null;
     private Vibrator mVibrator;
     public boolean mVibrationIsON = true;
 
@@ -52,6 +54,7 @@ public class KeysOrganizer implements IKeysOperations
         Log.v(TAG, "KeysOrganizer Constructor");
         mContext = context;
         mMainIME = mainIME;
+        mSpeechHelper = new SpeechHelper(context);
     }
 
     public View switchKeyboardType(String PassedStr, final KeyboardsTypes keyboardType, boolean isOnCreateCall)
@@ -396,5 +399,15 @@ public class KeysOrganizer implements IKeysOperations
         return mAKeyType.getKeys();
     }
     // endregion
+
+    public void ReadDescription(String DescStr)
+    {
+        mSpeechHelper.ReadDescription(DescStr);
+    }
+
+    public void Spell(String StrToSpell)
+    {
+        mSpeechHelper.Spell(StrToSpell);
+    }
 
 }
