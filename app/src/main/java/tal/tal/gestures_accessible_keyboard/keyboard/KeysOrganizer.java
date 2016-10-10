@@ -23,6 +23,7 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.h
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.symbols_keyboard.SymbolsKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.IMethodHandlers;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodOneHandler;
+import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodThreeHandler;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodTwoHandler;
 
 /**
@@ -194,7 +195,10 @@ public class KeysOrganizer implements IKeysOperations
                 */
             case 2:
                 /*
-
+                MethodTwoHandler MTH = new MethodTwoHandler(this);
+                Layout_Root.setOnTouchListener(MTH);
+                Layout_Root.setOnHoverListener(MTH);
+                mIMethodHandlers = MTH;
                 */
             case 3:
                 /*
@@ -203,11 +207,11 @@ public class KeysOrganizer implements IKeysOperations
         }
 
         // Debuggggg!! erase later..!!
-        MethodTwoHandler MTH = new MethodTwoHandler(this);
+
+        MethodThreeHandler MTH = new MethodThreeHandler(this);
         Layout_Root.setOnTouchListener(MTH);
         Layout_Root.setOnHoverListener(MTH);
         mIMethodHandlers = MTH;
-
 
 
     }
