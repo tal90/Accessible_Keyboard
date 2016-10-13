@@ -90,7 +90,7 @@ public class Key extends View
             return;
 
         mState = NewState;
-        String ContDesc = mKeysOrganizer.getKeyMeaning(mSerialNum, mState);
+        String ContDesc = mKeysOrganizer.getKeyDescription(mSerialNum, mState);
         if (ContDesc != null)
             setContentDescription(ContDesc);
     }

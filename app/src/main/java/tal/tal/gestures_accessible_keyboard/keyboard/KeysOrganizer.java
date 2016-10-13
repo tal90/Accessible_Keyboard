@@ -351,6 +351,14 @@ public class KeysOrganizer implements IKeysOperations
         return mAKeyType.getMeaningStringFromKey(KeySerialNum, KeyState);
     }
 
+    public String getKeyDescription(int KeySerialNum, int KeyState)
+    {
+        if (mAKeyType == null)
+            return null;
+
+        return mAKeyType.getDescriptionStringFromKey(KeySerialNum, KeyState);
+    }
+
     public Key getEnterKey()
     {
         if (mKeyboardView == null)

@@ -25,6 +25,7 @@ public abstract class AKeyType
     public abstract String getKeyboardName();
     public abstract boolean IsRegularKey(int KeySerialNum);
     public abstract String getMeaningStringFromKey(int KeySerialNum, int KeyState);
+    public abstract String getDescriptionStringFromKey(int KeySerialNum, int KeyState);
     public abstract LinearLayout[] getRowsArray(View v);
     public abstract HashMap<String, String> getKeyMapper();
     public abstract View KeyboardInitializer(KeysOrganizer keysOrganizer);

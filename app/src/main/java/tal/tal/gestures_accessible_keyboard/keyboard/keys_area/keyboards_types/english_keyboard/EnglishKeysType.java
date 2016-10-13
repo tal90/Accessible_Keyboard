@@ -93,6 +93,12 @@ public class EnglishKeysType extends AKeyType
         return mKeyMapper.get(Map_Me);
     }
 
+    @Override
+    public String getDescriptionStringFromKey(int KeySerialNum, int KeyState)
+    {
+        return getMeaningStringFromKey(KeySerialNum, KeyState);
+    }
+
 
     @Override
     public LinearLayout[] getRowsArray(View v)

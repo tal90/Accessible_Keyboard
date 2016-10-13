@@ -122,6 +122,12 @@ public class HebrewKeysType extends AKeyType
     }
 
     @Override
+    public String getDescriptionStringFromKey(int KeySerialNum, int KeyState)
+    {
+        return getMeaningStringFromKey(KeySerialNum, KeyState);
+    }
+
+    @Override
     public String getInvisibleRightKeyMeaning()
     {
         if (mKeyMapper == null)

@@ -192,7 +192,7 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
             mFingerCounter = tmpNumOfFingers;
 
             mLastTouchedKey.setState(tmpNumOfFingers);
-            mKeysOrganizer.ReadDescription(mLastTouchedKey.getKeyMeaning());
+            mKeysOrganizer.ReadDescription(mLastTouchedKey.getContentDescription().toString());      //.getKeyMeaning());
             Log.v(TAG, "CLICK OPTION 1");
             ReplaceLastCharacter(mLastTouchedKey);
             mLastTouchedKey.setState(tmpNumOfFingers);
@@ -229,7 +229,7 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
                     mLastTouchedKey.setState(1);
                     if (!mLastKeyMeaning.equals(mLastTouchedKey.getKeyMeaning()))
                     {
-                        mKeysOrganizer.ReadDescription(mLastTouchedKey.getKeyMeaning());
+                        mKeysOrganizer.ReadDescription(mLastTouchedKey.getContentDescription().toString());         //  getKeyMeaning());
                         Log.v(TAG, "CLICK OPTION 4");
                         ReplaceKeyIfRegular(mLastTouchedKey);
                     }

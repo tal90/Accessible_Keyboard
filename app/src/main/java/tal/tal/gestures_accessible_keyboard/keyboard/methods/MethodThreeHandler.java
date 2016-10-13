@@ -56,7 +56,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
 
             mLastTouchedKey.IncrementStateBy1();
             Log.v(TAG, "CLICK OPTION 5");
-            mKeysOrganizer.ReadDescription(mLastTouchedKey.getKeyMeaning());
+            mKeysOrganizer.ReadDescription(mLastTouchedKey.getContentDescription().toString());   //getKeyMeaning());
             ReplaceKeyIfRegular(mLastTouchedKey);
             ResetStatePickingTimer();
 

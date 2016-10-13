@@ -125,6 +125,12 @@ public class CapitalEnglishKeysType extends AKeyType
     }
 
     @Override
+    public String getDescriptionStringFromKey(int KeySerialNum, int KeyState)
+    {
+        return getMeaningStringFromKey(KeySerialNum, KeyState);
+    }
+
+    @Override
     public Key getEnterKey(View v)
     {
         return (Key)v.findViewById(R.id.Cap_Eng_Custom_Key10);

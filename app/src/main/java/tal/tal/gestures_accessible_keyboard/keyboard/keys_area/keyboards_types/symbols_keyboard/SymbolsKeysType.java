@@ -1,5 +1,6 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.symbols_keyboard;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -96,7 +97,7 @@ public class SymbolsKeysType extends AKeyType
             mKeys[i].setKeysOrganizer(keysOrganizer);
             mKeys[i].setSerialNum(i);
             mKeys[i].setMaxStates(Integer.valueOf(this.getMeaningStringFromKey(i, 0)));
-            mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));
+            mKeys[i].setContentDescription(this.getDescriptionStringFromKey(i, 1));
         }
 
         return KeyboardView;
@@ -146,6 +147,19 @@ public class SymbolsKeysType extends AKeyType
     public View getKeysViewLayoutRoot(View v)
     {
         return v.findViewById(R.id.Sym_Custom_Layout_Root);
+    }
+
+    @Override
+    public String getDescriptionStringFromKey(int KeySerialNum, int KeyState)
+    {
+        Log.v("MOMO", "getDescriptionStringFromKey");
+        if (mKeyMapper == null)
+            InitKeyMapper();
+
+        String Map_Me = String.valueOf(KeySerialNum + 100 * KeyState + 50);
+
+        Log.v("MOMO", Map_Me + "         " + mKeyMapper.get(Map_Me));
+        return mKeyMapper.get(Map_Me);
     }
 
     public void InitKeyMapper()
@@ -222,6 +236,60 @@ public class SymbolsKeysType extends AKeyType
         mKeyMapper.put(String.valueOf(9), String.valueOf(2));
         mKeyMapper.put(String.valueOf(10), String.valueOf(2));
         mKeyMapper.put(String.valueOf(11), String.valueOf(2));
+        //endregion
+
+        //region Special Keys Content Description
+        mKeyMapper.put(String.valueOf(0 + 150), "1");
+        mKeyMapper.put(String.valueOf(0 + 250), "Exclamation mark");           // '!'
+        mKeyMapper.put(String.valueOf(0 + 350), "Dot");                        // '.'
+        mKeyMapper.put(String.valueOf(0 + 450), "Comma");                      // ','
+
+        mKeyMapper.put(String.valueOf(1 + 150), "2");
+        mKeyMapper.put(String.valueOf(1 + 250), "At sign");                    // '@'
+        mKeyMapper.put(String.valueOf(1 + 350), "Plus sign");                  // '+'
+        mKeyMapper.put(String.valueOf(1 + 450), "Minus sign");                 // '-'
+
+        mKeyMapper.put(String.valueOf(2 + 150), "3");
+        mKeyMapper.put(String.valueOf(2 + 250), "Hash");                       // '#'
+        mKeyMapper.put(String.valueOf(2 + 350), "Less-than sign");             // '<'
+        mKeyMapper.put(String.valueOf(2 + 450), "Greater-than sign");          // '>'
+
+        mKeyMapper.put(String.valueOf(3 + 150), "4");
+        mKeyMapper.put(String.valueOf(3 + 250), "Dollar sign");                // '$'
+        mKeyMapper.put(String.valueOf(3 + 350), "Opening Curly Bracket");      // '{'
+        mKeyMapper.put(String.valueOf(3 + 450), "Closing Curly Bracket");      // '}'
+
+        mKeyMapper.put(String.valueOf(4 + 150), "5");
+        mKeyMapper.put(String.valueOf(4 + 250), "Percentage sign");           // '%'
+        mKeyMapper.put(String.valueOf(4 + 350), "Colon sign");                // ':'
+        mKeyMapper.put(String.valueOf(4 + 450), "Semicolon sign");            // ';'
+
+        mKeyMapper.put(String.valueOf(5 + 150), "6");
+        mKeyMapper.put(String.valueOf(5 + 250), "Opening Square Bracket");    // '['
+        mKeyMapper.put(String.valueOf(5 + 350), "Closing Square Bracket");    // ']'
+        mKeyMapper.put(String.valueOf(5 + 450), "Single Quote");              // "'"
+
+        mKeyMapper.put(String.valueOf(6 + 150), "7");
+        mKeyMapper.put(String.valueOf(6 + 250), "Ampersand Sign");            // '&'
+        mKeyMapper.put(String.valueOf(6 + 350), "Back Slash");                // '\'
+        mKeyMapper.put(String.valueOf(6 + 450), "Quotation mark");            // '"'
+
+        mKeyMapper.put(String.valueOf(7 + 150), "8");
+        mKeyMapper.put(String.valueOf(7 + 250), "Asterisk");                  // '*'
+        mKeyMapper.put(String.valueOf(7 + 350), "Slash Sign");                // '/'
+
+        mKeyMapper.put(String.valueOf(8 + 150), "9");
+        mKeyMapper.put(String.valueOf(8 + 250), "Question Mark");            // '?'
+        mKeyMapper.put(String.valueOf(8 + 350), "Opening Parentheses");      // '('
+        mKeyMapper.put(String.valueOf(8 + 450), "Closing Parentheses");      // ')'
+
+        mKeyMapper.put(String.valueOf(9 + 150), Consts.ENTER_KEY_NAME);
+
+        mKeyMapper.put(String.valueOf(10+ 150), "0");
+        mKeyMapper.put(String.valueOf(10+ 250), Consts.SPACE_KEY_NAME);
+
+        mKeyMapper.put(String.valueOf(11+ 150), Consts.BACKSPACE_KEY_NAME);
+
         //endregion
     }
 
