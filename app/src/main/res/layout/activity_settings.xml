@@ -1,13 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="tal.tal.gestures_accessible_keyboard.activities.settings.SettingsActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_margin="0dp"
+              android:background="#000000"
+              android:orientation="vertical">
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/Font_Size_Title_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/Font_Size"
+        android:text="@string/Font_Size"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+        android:textStyle="bold|italic"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/btnUp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="40dp"
+                android:contentDescription="@string/Increase_Font"
+                android:scaleType="fitXY"
+                android:src="@drawable/up"/>
+
+            <ImageButton
+                android:id="@+id/btnDown"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="40dp"
+                android:contentDescription="@string/Decrease_Font"
+                android:scaleType="fitXY"
+                android:src="@drawable/down"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/Font_TextView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.26"
+            android:ems="10"
+            android:text="@string/Settings_fragment_Font_Size_EditText"
+            android:textColor="#ffffff">
+
+            <requestFocus/>
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/Vibrate_CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:checked="true"
+            android:button="@drawable/custom_checkbox"
+            android:paddingLeft="20dp"
+            android:text="@string/Vibrate"
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:textStyle="bold|italic"/>
+
+        <!-- SOUNDS - UNNEEDED FOR NOW..!
+        <CheckBox
+            android:id="@+id/chkDownLetter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sound" />
+        -->
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Method_Title_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/Method_Number"
+        android:text="@string/Method_Number"
+        android:textColor="#ffffff"
+        android:textSize="30dp"
+        android:textStyle="bold|italic"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/MethodBtnUp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/Next_Method"
+                android:scaleType="fitXY"
+                android:src="@drawable/up"/>
+
+            <ImageButton
+                android:id="@+id/MethodBtnDown"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/Previous_Method"
+                android:scaleType="fitXY"
+                android:src="@drawable/down"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/Method_TextView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#ffffff"
+            android:textSize="100dp">
+
+            <requestFocus/>
+        </TextView>
+
+        <ImageButton
+            android:id="@+id/MethodQMark"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
+            android:contentDescription=""
+            android:scaleType="fitXY"
+            android:src="@drawable/question_mark"/>
+    </LinearLayout>
+</LinearLayout>
+
+
+
+    <!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="tal.tal.gestures_accessible_keyboard.activities.settings.SettingsActivity">
+
+    </RelativeLayout>
+    -->

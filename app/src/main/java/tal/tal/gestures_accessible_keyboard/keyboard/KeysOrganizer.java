@@ -1,6 +1,7 @@
 package tal.tal.gestures_accessible_keyboard.keyboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
@@ -13,6 +14,7 @@ import android.view.inputmethod.InputConnection;
 
 import tal.tal.gestures_accessible_keyboard.MainIME;
 import tal.tal.gestures_accessible_keyboard.R;
+import tal.tal.gestures_accessible_keyboard.activities.settings.SettingsActivity;
 import tal.tal.gestures_accessible_keyboard.keyboard.Speech.SpeechHelper;
 import tal.tal.gestures_accessible_keyboard.keyboard.chief_text_view.ChiefTextView;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
@@ -22,7 +24,9 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.e
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.hebrew_keyboard.HebrewKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.symbols_keyboard.SymbolsKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.IMethodHandlers;
+import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodOneHandler;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodThreeHandler;
+import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodTwoHandler;
 
 /**
  * Created by talra on 24-Aug-16.
@@ -52,6 +56,10 @@ public class KeysOrganizer implements IKeysOperations
         mContext = context;
         mMainIME = mainIME;
         mSpeechHelper = new SpeechHelper(context);
+        mVibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        mVibrationIsON = sharedPreferences.getBoolean(Consts.SharedPref_Vibrate_TAG, true);
     }
 
     public View switchKeyboardType(String PassedStr, final KeyboardsTypes keyboardType)
@@ -166,10 +174,6 @@ public class KeysOrganizer implements IKeysOperations
     public void setUpChiefTextView(String PassedStr)
     {
         Log.v(TAG, "setUpChiefTextView");
-        // TODO - Implement! from mechinsm with changes..!!!!
-        // TODO - most implementation would appear in the 'chiefs' class..!!!!
-
-
 
         mChiefTextView = (ChiefTextView) mKeyboardView.findViewById(R.id.Attached_Chief_TextView);
         mChiefTextView.setKeysOrganizer(this);
@@ -190,33 +194,25 @@ public class KeysOrganizer implements IKeysOperations
         switch (getUsedMethodNumber())
         {
             case 1:
-                /*
                 MethodOneHandler MOH = new MethodOneHandler(this, 100); // getCompatibleSwipeMinDistance(Layout_Root));
                 Layout_Root.setOnTouchListener(MOH);
                 Layout_Root.setOnHoverListener(MOH);
                 mIMethodHandlers = MOH;
-                return;
-                */
+                break;
+
             case 2:
-                /*
                 MethodTwoHandler MTH = new MethodTwoHandler(this);
                 Layout_Root.setOnTouchListener(MTH);
                 Layout_Root.setOnHoverListener(MTH);
                 mIMethodHandlers = MTH;
-                */
+                break;
             case 3:
-                /*
-
-                */
+                MethodThreeHandler M3H = new MethodThreeHandler(this);
+                Layout_Root.setOnTouchListener(M3H);
+                Layout_Root.setOnHoverListener(M3H);
+                mIMethodHandlers = M3H;
+                break;
         }
-
-        // Debuggggg!! erase later..!!
-
-        MethodThreeHandler MTH = new MethodThreeHandler(this);
-        Layout_Root.setOnTouchListener(MTH);
-        Layout_Root.setOnHoverListener(MTH);
-        mIMethodHandlers = MTH;
-
 
         mIMethodHandlers.setTypedText(PassedStr);
 
@@ -268,7 +264,6 @@ public class KeysOrganizer implements IKeysOperations
                 FlushFromChiefAndCurrWord();
                 DropToTextEditor(" ");
                 break;
-            // TODO - STOPPED HERE!!!
             case Consts.BACKSPACE_KEY_NAME:
                 Key BS = mAKeyType.getKeyBySerialNumber(11);
                 BS.setContentDescription("");
@@ -340,6 +335,16 @@ public class KeysOrganizer implements IKeysOperations
     {
         CommittingAnIrregularKey(mAKeyType.getInvisibleLeftKeyMeaning());
         VibrateAfterKeyPressed();
+    }
+
+    public void OpenSettingsActivity()
+    {
+        ReadDescription("Opening Settings Activity");
+
+        Intent SettingsIntent = new Intent(mContext, SettingsActivity.class);
+        SettingsIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        SettingsIntent.putExtra("MethodNumber", getUsedMethodNumber());
+        mMainIME.startActivity(SettingsIntent);
     }
 
     // region Setters & Getters

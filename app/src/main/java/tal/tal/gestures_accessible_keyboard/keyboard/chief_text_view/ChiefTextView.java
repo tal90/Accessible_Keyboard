@@ -27,11 +27,15 @@ public class ChiefTextView extends TextView
     private KeysOrganizer mKeysOrganizer = null;
 
     private long mLastChiefTouchTime = 0;
+
+    //region Constants
     private final int LONG_CLICK_MIN_TIME = 1500;
 
     private final int LEFT_INVISIBLE_KEY = 1;
     private final int RIGHT_INVISIBLE_KEY = 2;
     private final int TRIGGERING_INVISIBLE_KEY_WINDOW = 2500;
+    //endregion Constants
+
     private int mLastInvisibleClickedKey = 0;
     private long mLastInvisibleClickTime = 0;
     private int mInvisibleKeysCounter = 0;
@@ -45,6 +49,7 @@ public class ChiefTextView extends TextView
         setTextSize(mFontSize);
     }
 
+    //region Getters & Setters
     public void setChiefTouchListener(View RootElement)
     {
         Log.v(TAG, "setChiefTouchListener");
@@ -62,23 +67,13 @@ public class ChiefTextView extends TextView
         RootElement.setOnHoverListener(chiefTouchListener);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        Log.v(TAG, "OnTOUCH EVENT!!");
-        return super.onTouchEvent(event);
-    }
-
-
-    // TODO - LESADER PO!!
-
 
     public void setIsTypedTextPassword(boolean mIsTypedTextPassword)
     {
         this.mIsTypedTextPassword = mIsTypedTextPassword;
     }
 
-    public void SetChiefText(String Str)       // TODO - recheck if ReImplementation needed..!!
+    public void SetChiefText(String Str)
     {
         Log.v(TAG, "SetChiefText - " + Str);
         if (mIsTypedTextPassword)
@@ -102,24 +97,12 @@ public class ChiefTextView extends TextView
         return StarsString;
     }
 
-    @Override
-    public void draw(Canvas canvas)
+    public void setKeysOrganizer(KeysOrganizer keysOrganizer)
     {
-        super.draw(canvas);
+        mKeysOrganizer = keysOrganizer;
     }
 
-
-    /*
-        public void onFontSizeChanged(int newFontSize)      // TODO - RECHECK ABOUT THE SHAREDPREFS..
-        {
-            mFontSize = newFontSize;
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-            sharedPreferences.edit()
-                    .putInt(Consts.SharedPref_FontSize_TAG, mFontSize)
-                    .commit();
-        }
-
-    */
+    //endregion
 
     //region Constructors
     public ChiefTextView(Context context)
@@ -149,11 +132,18 @@ public class ChiefTextView extends TextView
 
     //endregion
 
-    public void setKeysOrganizer(KeysOrganizer keysOrganizer)
-    {
-        mKeysOrganizer = keysOrganizer;
-    }
-
+    //region ?????
+     /*
+        public void onFontSizeChanged(int newFontSize)      // TODO - RECHECK ABOUT THE SHAREDPREFS..
+        {
+            mFontSize = newFontSize;
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+            sharedPreferences.edit()
+                    .putInt(Consts.SharedPref_FontSize_TAG, mFontSize)
+                    .commit();
+        }
+*/
+    //endregion
 
     private class ChiefTouchListener implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener, View.OnHoverListener
     {
@@ -182,9 +172,6 @@ public class ChiefTextView extends TextView
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent)
         {
-            // TODO - implement!!
-            //     Log.v(TAG, "onTouch");
-
             switch (motionEvent.getActionMasked())
             {
                 case MotionEvent.ACTION_HOVER_ENTER:
@@ -194,11 +181,9 @@ public class ChiefTextView extends TextView
                     mLastChiefTouchTime = System.currentTimeMillis();
                     break;
 
-
                 case MotionEvent.ACTION_HOVER_MOVE:
                 case MotionEvent.ACTION_MOVE:
                     Log.v(TAG, "ACTION_MOVE");
-
                     return true;
 
 
@@ -212,7 +197,6 @@ public class ChiefTextView extends TextView
                         onLongClick(null);
                         return true;
                     }
-
 
                     break;
 
@@ -241,6 +225,9 @@ public class ChiefTextView extends TextView
         {
             long CurrTime = System.currentTimeMillis();
 
+            if (mKeysOrganizer == null)
+                return;
+
             if (CurrTime - mLastInvisibleClickTime > TRIGGERING_INVISIBLE_KEY_WINDOW)
             {
                 // TIME WINDOW FOR LAST INVISIBLE CLICK IS UP, REINITIALIZING FOR NEW WINDOW
@@ -257,7 +244,6 @@ public class ChiefTextView extends TextView
                     DetermineInvisibleKey((int) motionEvent.getX());
                     return;
 
-
                 case MotionEvent.ACTION_HOVER_EXIT:
                 case MotionEvent.ACTION_UP:
                     int TmpLastInvisibleKeyClicked = mLastInvisibleClickedKey;
@@ -265,17 +251,23 @@ public class ChiefTextView extends TextView
 
                     Log.v(TAG, "TMP = " + TmpLastInvisibleKeyClicked + ", Last = " + mLastInvisibleClickedKey);
 
-                    if (TmpLastInvisibleKeyClicked == mLastInvisibleClickedKey && mLastInvisibleClickedKey > 0)
+                    if (TmpLastInvisibleKeyClicked == mLastInvisibleClickedKey)
                     {
                         Log.v(TAG, "INVISIBLE KEY'S COUNTER = " + mInvisibleKeysCounter);
                         mInvisibleKeysCounter++;
 
-                        if (mInvisibleKeysCounter == 3)
+                        if (mInvisibleKeysCounter == 3  && mLastInvisibleClickedKey > 0)
                         {
                             mInvisibleKeysCounter = 0;
                             OnInvisibleKeyClick(mLastInvisibleClickedKey);
                         }
-                    } else Log.v(TAG, "NO INVISIBLE KEY WAS CLICKED!");
+                        else if (mLastInvisibleClickedKey == 0 && mInvisibleKeysCounter == 4)
+                        {
+                            Log.v(TAG, "Opening Settings Activity !");
+                            mKeysOrganizer.OpenSettingsActivity();
+                        }
+                    } else Log.v(TAG, "NO INVISIBLE KEY WAS CLICKED!" + "TMP = " + TmpLastInvisibleKeyClicked + ", Last = " + mLastInvisibleClickedKey);
+
                     return;
             }
         }

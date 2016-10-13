@@ -11,6 +11,16 @@
     <string name="Send">Send</string>
     <string name="Go">Go</string>
 
+    <string name="Vibrate">Vibrate</string>
+    <string name="Font_Size">Font Size</string>
+    <string name="Increase_Font">Increase font</string>
+    <string name="Decrease_Font">Decrease font</string>
+    <string name="Next_Method">Next Method</string>
+    <string name="Previous_Method">Previous Method</string>
+    <string name="Settings_fragment_Font_Size_EditText">A</string>
+    <string name="sound">Play Sound</string>
+    <string name="Method_Number">Pick A Method</string>
+
     <string name="HebTweet_1">.,!</string>
     <string name="HebTweet_2">ד</string>
     <string name="HebTweet_3">א</string>

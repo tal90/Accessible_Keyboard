@@ -152,13 +152,10 @@ public class SymbolsKeysType extends AKeyType
     @Override
     public String getDescriptionStringFromKey(int KeySerialNum, int KeyState)
     {
-        Log.v("MOMO", "getDescriptionStringFromKey");
         if (mKeyMapper == null)
             InitKeyMapper();
 
         String Map_Me = String.valueOf(KeySerialNum + 100 * KeyState + 50);
-
-        Log.v("MOMO", Map_Me + "         " + mKeyMapper.get(Map_Me));
         return mKeyMapper.get(Map_Me);
     }
 
