@@ -1,6 +1,7 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.Speech;
 
 import android.content.Context;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
@@ -29,11 +30,28 @@ public class SpeechHelper
         mTextToSpeech.speak(DescStr, TextToSpeech.QUEUE_FLUSH, null);
     }
 
-    public void Spell(String Str)
+    public void Spell(final String SpellStr)
     {
-        // tODO - IMPLEMENT!
-    }
+        Handler handler = new Handler();
+        handler.postDelayed(
+                new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (SpellStr.equals(""))
+                            return;
 
+                        mTextToSpeech.speak(SpellStr.charAt(0) + "", TextToSpeech.QUEUE_FLUSH, null);
+
+                        if (SpellStr.length() > 1)
+                        {
+                            String sub = SpellStr.substring(1, SpellStr.length());
+                            Spell(sub);
+                        }
+                    }
+                }, 1000);
+    }
     private void InitTextToSpeech()
     {
         mTextToSpeech = new TextToSpeech(mContext, new TextToSpeech.OnInitListener()
@@ -41,10 +59,9 @@ public class SpeechHelper
             @Override
             public void onInit(int i)
             {
-                //TODO - RETHINK ABOUT THIS!
-                    /*
-                    if (initStatus == TextToSpeech.SUCCESS)
-                    {  myTTS.setLanguage(Locale.US);}
+                if (i == TextToSpeech.SUCCESS)
+                    ReadDescription("Accessoble Keyboard");
+                /*   {  myTTS.setLanguage(Locale.US);}
                     */
             }
         });

@@ -121,6 +121,24 @@ public class HebrewKeysType extends AKeyType
         return v.findViewById(R.id.Heb_Custom_Layout_Root);
     }
 
+    @Override
+    public String getInvisibleRightKeyMeaning()
+    {
+        if (mKeyMapper == null)
+            InitKeyMapper();
+
+        return mKeyMapper.get(Consts.INVISIBLE_RIGHT_KEY_NAME);
+    }
+
+    @Override
+    public String getInvisibleLeftKeyMeaning()
+    {
+        if (mKeyMapper == null)
+            InitKeyMapper();
+
+        return mKeyMapper.get(Consts.INVISIBLE_LEFT_KEY_NAME);
+    }
+
     /*
     @Override
     public boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState)
@@ -174,12 +192,13 @@ public class HebrewKeysType extends AKeyType
 
         // THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
         mKeyMapper.put(String.valueOf(9 + 100), Consts.ENTER_KEY_NAME);
-        mKeyMapper.put(String.valueOf(9 + 200), Consts.SYMBOLS_SWITCH_KEY_NAME);
 
         mKeyMapper.put(String.valueOf(10+ 100), Consts.SPACE_KEY_NAME);
 
         mKeyMapper.put(String.valueOf(11+ 100), Consts.BACKSPACE_KEY_NAME);
-        mKeyMapper.put(String.valueOf(11+ 200), Consts.ENGLISH_SWITCH_KEY_NAME);
+
+        mKeyMapper.put(Consts.INVISIBLE_LEFT_KEY_NAME, Consts.ENGLISH_SWITCH_KEY_NAME);
+        mKeyMapper.put(Consts.INVISIBLE_RIGHT_KEY_NAME, Consts.SYMBOLS_SWITCH_KEY_NAME);
         //endregion
 
         //region KEYS MAX STATES

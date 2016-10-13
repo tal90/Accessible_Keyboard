@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo;
 import java.util.Locale;
 
 import tal.tal.gestures_accessible_keyboard.keyboard.KeysOrganizer;
+import tal.tal.gestures_accessible_keyboard.keyboard.Speech.SpeechHelper;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.AKeyType;
 
 /**
@@ -44,7 +45,7 @@ public class MainIME extends InputMethodService
 
 
         mKeysOrganizer = new KeysOrganizer(getApplicationContext(), this);
-        mKeyboardView = mKeysOrganizer.switchKeyboardType("", keyboardType, true);
+        mKeyboardView = mKeysOrganizer.switchKeyboardType("", keyboardType);
 
         return mKeyboardView;
         // TODO - recheck with TweetMechnism's func that i'vn't forgot anything!
@@ -72,6 +73,8 @@ public class MainIME extends InputMethodService
         {
             mKeysOrganizer.setIsTypedTextPassword(false);
         }
+
+        mKeysOrganizer.ReadOutLoudKeyboardName();
 
 
         /*

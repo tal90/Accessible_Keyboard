@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
-import android.widget.TextView;
 
 import tal.tal.gestures_accessible_keyboard.MainIME;
 import tal.tal.gestures_accessible_keyboard.R;
@@ -23,9 +22,7 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.e
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.hebrew_keyboard.HebrewKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.symbols_keyboard.SymbolsKeysType;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.IMethodHandlers;
-import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodOneHandler;
 import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodThreeHandler;
-import tal.tal.gestures_accessible_keyboard.keyboard.methods.MethodTwoHandler;
 
 /**
  * Created by talra on 24-Aug-16.
@@ -57,7 +54,7 @@ public class KeysOrganizer implements IKeysOperations
         mSpeechHelper = new SpeechHelper(context);
     }
 
-    public View switchKeyboardType(String PassedStr, final KeyboardsTypes keyboardType, boolean isOnCreateCall)
+    public View switchKeyboardType(String PassedStr, final KeyboardsTypes keyboardType)
     {
         Log.v(TAG, "switchKeyboadType");
         mKeyboardView = null;
@@ -81,9 +78,11 @@ public class KeysOrganizer implements IKeysOperations
 
         mKeyboardView = mAKeyType.KeyboardInitializer(this);
         setUpChiefTextView(PassedStr); // TODO !!!! - lahzor Le ZE!! REIMPLEMENT!!!
-        setMethodHandler(mKeyboardView);
-        //    if (!isOnCreateCall)
-        mMainIME.setInputView(mKeyboardView);       // REREAD DOCUMNETATION - NEEDED ONLY WHILE SWITCHING KEYBOARD WITH A BUTTON..
+        setMethodHandler(mKeyboardView, PassedStr);
+
+        mMainIME.setInputView(mKeyboardView);
+
+        mSpeechHelper.ReadDescription(mAKeyType.getKeyboardName());
 
         return mKeyboardView;
     }
@@ -170,13 +169,15 @@ public class KeysOrganizer implements IKeysOperations
         // TODO - Implement! from mechinsm with changes..!!!!
         // TODO - most implementation would appear in the 'chiefs' class..!!!!
 
-        // MAY include - settext(PassedStr)..
 
-        // debug!! - for now // TODO - MAKE IT GOOD!!!
+
         mChiefTextView = (ChiefTextView) mKeyboardView.findViewById(R.id.Attached_Chief_TextView);
+        mChiefTextView.setKeysOrganizer(this);
+        mChiefTextView.setChiefTouchListener(mChiefTextView.getRootView());
+        mChiefTextView.SetChiefText(PassedStr);
     }
 
-    public void setMethodHandler(View v)
+    public void setMethodHandler(View v, String PassedStr)
     {
         // TODO - Implement! - taken from 'setKeysAreaOnTouchListener' on keysorganizer!
 
@@ -217,6 +218,8 @@ public class KeysOrganizer implements IKeysOperations
         mIMethodHandlers = MTH;
 
 
+        mIMethodHandlers.setTypedText(PassedStr);
+
     }
 
     @Override
@@ -232,7 +235,7 @@ public class KeysOrganizer implements IKeysOperations
     @Override
     public void SetTextInsideTheChief(String str)
     {
-        mChiefTextView.SetTextInsideTheChief(str);
+        mChiefTextView.SetChiefText(str);
     }
 
     @Override
@@ -279,16 +282,16 @@ public class KeysOrganizer implements IKeysOperations
                 EnterKeyClick();
                 break;
             case Consts.SYMBOLS_SWITCH_KEY_NAME:
-                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.Symbols, false);
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.Symbols);
                 break;
             case Consts.ENGLISH_SWITCH_KEY_NAME:
-                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.English, false);
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.English);
                 break;
             case Consts.HEBREW_SWITCH_KEY_NAME:
-                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.Hebrew, false);
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.Hebrew);
                 break;
             case Consts.CAPITAL_ENGLISH_SWITCH_KEY_NAME:
-                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.CapitalEnglish, false);
+                switchKeyboardType(mIMethodHandlers.getTypedText(), KeyboardsTypes.CapitalEnglish);
                 break;
         }
     }
@@ -326,6 +329,18 @@ public class KeysOrganizer implements IKeysOperations
         mVibrator.vibrate(55);
     }
 
+
+    public void OnRightInvisibleKeyClick()
+    {
+        CommittingAnIrregularKey(mAKeyType.getInvisibleRightKeyMeaning());
+        VibrateAfterKeyPressed();
+    }
+
+    public void OnLeftInvisibleKeyClick()
+    {
+        CommittingAnIrregularKey(mAKeyType.getInvisibleLeftKeyMeaning());
+        VibrateAfterKeyPressed();
+    }
 
     // region Setters & Getters
     public String getKeyMeaning(int KeySerialNum, int KeyState)
@@ -384,16 +399,6 @@ public class KeysOrganizer implements IKeysOperations
         return mContext;
     }
 
-    public boolean getMethod2KeysAllSetFlag()
-    {
-        return mAKeyType.getMethod2KeysAllSetFlag();
-    }
-
-    public void setMethod2KeysAllSetFlag(boolean Value)         // TODO - wait to Method 3..!
-    {
-        mAKeyType.setMethod2KeysAllSetFlag(Value);
-    }
-
     public Key[] getKeys()
     {
         return mAKeyType.getKeys();
@@ -410,4 +415,8 @@ public class KeysOrganizer implements IKeysOperations
         mSpeechHelper.Spell(StrToSpell);
     }
 
+    public void ReadOutLoudKeyboardName()
+    {
+        ReadDescription(mAKeyType.getKeyboardName());
+    }
 }

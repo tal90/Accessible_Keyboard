@@ -2,13 +2,14 @@ package tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.
 
 import android.view.View;
 import android.widget.LinearLayout;
+
 import java.util.HashMap;
+
 import tal.tal.gestures_accessible_keyboard.R;
 import tal.tal.gestures_accessible_keyboard.keyboard.Consts;
 import tal.tal.gestures_accessible_keyboard.keyboard.KeysOrganizer;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
 import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.keyboards_types.AKeyType;
-
 
 
 /**
@@ -96,7 +97,7 @@ public class EnglishKeysType extends AKeyType
     @Override
     public LinearLayout[] getRowsArray(View v)
     {
-        LinearLayout[] Rows = new  LinearLayout[4];
+        LinearLayout[] Rows = new LinearLayout[4];
 
         Rows[0] = (LinearLayout) v.findViewById(R.id.Eng_Custom_Layout_Row1);
         Rows[1] = (LinearLayout) v.findViewById(R.id.Eng_Custom_Layout_Row2);
@@ -126,9 +127,27 @@ public class EnglishKeysType extends AKeyType
         return v.findViewById(R.id.Eng_Custom_Layout_Root);
     }
 
+    @Override
+    public String getInvisibleRightKeyMeaning()
+    {
+        if (mKeyMapper == null)
+            InitKeyMapper();
+
+        return mKeyMapper.get(Consts.INVISIBLE_RIGHT_KEY_NAME);
+    }
+
+    @Override
+    public String getInvisibleLeftKeyMeaning()
+    {
+        if (mKeyMapper == null)
+            InitKeyMapper();
+
+        return mKeyMapper.get(Consts.INVISIBLE_LEFT_KEY_NAME);
+    }
+
     public void InitKeyMapper()
     {
-        mKeyMapper = new HashMap<String,String>();
+        mKeyMapper = new HashMap<String, String>();
 
         //region KEYS MAPPING!
         mKeyMapper.put(String.valueOf(0 + 100), ".");
@@ -171,12 +190,13 @@ public class EnglishKeysType extends AKeyType
 
         // THESE KEYS HAVE ONLY 2 OR LESS OPTIONS..!! PAY ATTENTION..!
         mKeyMapper.put(String.valueOf(9 + 100), Consts.ENTER_KEY_NAME);
-        mKeyMapper.put(String.valueOf(9 + 200), Consts.HEBREW_SWITCH_KEY_NAME);
 
-        mKeyMapper.put(String.valueOf(10+ 100), Consts.SPACE_KEY_NAME);
+        mKeyMapper.put(String.valueOf(10 + 100), Consts.SPACE_KEY_NAME);
 
-        mKeyMapper.put(String.valueOf(11+ 100), Consts.BACKSPACE_KEY_NAME);
-        mKeyMapper.put(String.valueOf(11+ 200), Consts.CAPITAL_ENGLISH_SWITCH_KEY_NAME);
+        mKeyMapper.put(String.valueOf(11 + 100), Consts.BACKSPACE_KEY_NAME);
+
+        mKeyMapper.put(Consts.INVISIBLE_LEFT_KEY_NAME, Consts.HEBREW_SWITCH_KEY_NAME);
+        mKeyMapper.put(Consts.INVISIBLE_RIGHT_KEY_NAME, Consts.CAPITAL_ENGLISH_SWITCH_KEY_NAME);
         //endregion
 
         //region KEYS MAX STATES

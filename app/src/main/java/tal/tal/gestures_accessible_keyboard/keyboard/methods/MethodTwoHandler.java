@@ -82,7 +82,9 @@ public class MethodTwoHandler implements IMethodHandlers, View.OnTouchListener, 
             }
         }
         //  Log.v(TAG, "Key IS NULLLLLLLLLLLLL!!!!!");
-        return mLastTouchedKey;
+        if (mLastTouchedKey != null)
+            return mLastTouchedKey;
+        return mKeysOrganizer.getKeys()[0];
     }
 
 

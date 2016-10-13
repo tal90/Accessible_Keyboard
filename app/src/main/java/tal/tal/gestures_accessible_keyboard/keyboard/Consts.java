@@ -7,10 +7,10 @@ public class Consts
 {
     // TRY TO AVOID FROM MAKING THIS CLASS A 'STATIC' CLASS...!!
 
-    public final static String HEBREW_KEYBOARD_NAME = "HebrewKeyboard";
-    public final static String ENGLISH_KEYBOARD_NAME = "EnglishKeyboard";
-    public final static String CAPITAL_ENGLISH_KEYBOARD_NAME = "CapitalEnglishKeyboard";
-    public final static String SYMBOLS_KEYBOARD_NAME = "SymbolsKeyboard";
+    public final static String HEBREW_KEYBOARD_NAME = "Hebrew Keyboard";
+    public final static String ENGLISH_KEYBOARD_NAME = "English Keyboard";
+    public final static String CAPITAL_ENGLISH_KEYBOARD_NAME = "Capital English Keyboard";
+    public final static String SYMBOLS_KEYBOARD_NAME = "Symbols Keyboard";
 
 
     public final static String DELETE_KEY_NAME = "Delete";
@@ -22,6 +22,8 @@ public class Consts
     public final static String SPACE_KEY_NAME = "Space";
     public final static String CAPITAL_ENGLISH_SWITCH_KEY_NAME = "Capital English Switch";
 
+    public final static String INVISIBLE_RIGHT_KEY_NAME = "Invisible Right";
+    public final static String INVISIBLE_LEFT_KEY_NAME = "Invisible Left";
 
     public final static String SharedPref_FontSize_TAG = "Font_Size";
     public final static String SharedPref_Vibrate_TAG = "Vibrate";

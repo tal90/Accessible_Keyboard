@@ -20,7 +20,6 @@ public abstract class AKeyType
     protected EnterKeyTypes mEnterKeyType;
     public enum EnterKeyTypes {   Enter,Search,Send,Go,Next,Previous,None,Unspecified     }
 
-    private boolean mMethod2KeysAllSetFlag = false;     // unneeded!!!! BUT.. MAYBE WITH METHOD 3.. SO.. THIS STAYS HERE..!
 
     public int mNumOfKeys = 12;
     public abstract String getKeyboardName();
@@ -31,6 +30,8 @@ public abstract class AKeyType
     public abstract View KeyboardInitializer(KeysOrganizer keysOrganizer);
     public abstract Key getEnterKey(View v);
     public abstract View getKeysViewLayoutRoot(View v);
+    public abstract String getInvisibleRightKeyMeaning();
+    public abstract String getInvisibleLeftKeyMeaning();
 
     public void setEnterKeyType(EnterKeyTypes enterKeyTypes)
     {
@@ -58,15 +59,7 @@ public abstract class AKeyType
         return null;
     }
 
-    public void setMethod2KeysAllSetFlag(boolean val)
-    {
-        mMethod2KeysAllSetFlag = val;
-    }
 
-    public boolean getMethod2KeysAllSetFlag()
-    {
-        return mMethod2KeysAllSetFlag;
-    }
 
     /*   // TODO - Well i thought that the typedtext should be here.. but.. i don't think that way anymore..
 
