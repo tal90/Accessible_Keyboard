@@ -16,12 +16,12 @@ import tal.tal.gestures_accessible_keyboard.keyboard.keys_area.Key;
  */
 public abstract class AKeyType
 {
-    protected Key[] mKeys;               // shall i add 'Row[] Rows' ..??
+    protected Key[] mKeys;
     protected EnterKeyTypes mEnterKeyType;
     public enum EnterKeyTypes {   Enter,Search,Send,Go,Next,Previous,None,Unspecified     }
 
-
     public int mNumOfKeys = 12;
+
     public abstract String getKeyboardName();
     public abstract boolean IsRegularKey(int KeySerialNum);
     public abstract String getMeaningStringFromKey(int KeySerialNum, int KeyState);
@@ -46,7 +46,7 @@ public abstract class AKeyType
 
     public int getNumberOfKeys()
     {
-        return 12;
+        return mNumOfKeys;
     }
     public Key[] getKeys()
     {
@@ -60,55 +60,4 @@ public abstract class AKeyType
         return null;
     }
 
-
-
-    /*   // TODO - Well i thought that the typedtext should be here.. but.. i don't think that way anymore..
-
-    protected String mTypedText;
-    public String getTypedText()
-    {
-        return mTypedText;
-    }
-
-    public void setTypedText(String typedText)
-    {
-        mTypedText = typedText;
-    }
-     */
-
-    /*
-
-    public abstract boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState);     // TODO - CHECK IF NEEDED..!! I THINK NOT..!
-    public abstract View getEnterKeyView(View v);
-
-    //region TODO - MUST CHECK IF NEEDED..!!!!!
-    public boolean IsBackSpace(int KeySerialNum, int KeyState)        // TODO - is that delete??.. wat is the difference..!
-    {
-        return getMeaningStringFromKey(KeySerialNum, KeyState)
-                .equals(Consts.BACKSPACE_KEY_NAME);
-    }
-
-    public boolean IsSpace(int KeySerialNum, int KeyState)
-    {
-        return getMeaningStringFromKey(KeySerialNum, KeyState)
-                .equals(Consts.SPACE_KEY_NAME);
-    }
-    public boolean IsEnter(int KeySerialNum, int KeyState)           // enter is usually as i see it in all kinds of keyboards.. is at the second degree of '10' key.. so..
-    {
-        return getMeaningStringFromKey(KeySerialNum, KeyState)
-                .equals(Consts.ENTER_KEY_NAME);
-    }
-
-    public boolean IsSwitchToSymbolsKeyboard(int KeySerialNum, int KeyState)     // SYMBOLS KEYBOARD WOULD OVERRIDE THIS FUNC.. AND REWRITE THE NEEDED IMPLEMENTATION...  : 'RETURN FALSE..'
-    {
-        return getMeaningStringFromKey(KeySerialNum, KeyState)
-                .equals(Consts.SYMBOLS_SWITCH_KEY_NAME);
-    }
-    public boolean IsDelete(int KeySerialNum, int KeyState)
-    {
-        return getMeaningStringFromKey(KeySerialNum, KeyState)
-                .equals(Consts.DELETE_KEY_NAME);
-    }
-    //endregion
-     */
 }

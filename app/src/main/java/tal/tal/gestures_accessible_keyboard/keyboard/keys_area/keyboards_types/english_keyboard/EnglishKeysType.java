@@ -77,7 +77,7 @@ public class EnglishKeysType extends AKeyType
             mKeys[i].setKeysOrganizer(keysOrganizer);
             mKeys[i].setSerialNum(i);
             mKeys[i].setMaxStates(Integer.valueOf(this.getMeaningStringFromKey(i, 0)));
-            mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));
+            mKeys[i].setContentDescription(this.getDescriptionStringFromKey(i, 1));
         }
 
         return KeyboardView;

@@ -77,7 +77,7 @@ public class CapitalEnglishKeysType extends AKeyType
             mKeys[i].setKeysOrganizer(keysOrganizer);
             mKeys[i].setSerialNum(i);
             mKeys[i].setMaxStates(Integer.valueOf(this.getMeaningStringFromKey(i, 0)));
-            mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));
+            mKeys[i].setContentDescription(this.getDescriptionStringFromKey(i, 1));
         }
 
         return KeyboardView;
@@ -137,15 +137,6 @@ public class CapitalEnglishKeysType extends AKeyType
     }
 
 
-/*
-    @Override
-    public boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState)
-    {
-        //TODO - UNIMPLEMENTED! - IMPLEMENT!!!
-        return false;
-    }
-
-*/
     @Override
     public View getKeysViewLayoutRoot(View v)
     {
@@ -194,7 +185,7 @@ public class CapitalEnglishKeysType extends AKeyType
         mKeyMapper.put(String.valueOf(8 + 300), "Y");
         mKeyMapper.put(String.valueOf(8 + 400), "Z");
 
-        // TODO - THESE KEYS HAVE ONLY 2 OPTIONS..!! PAY ATTENTION..!
+        // NOTE : THESE KEYS HAVE ONLY 2 OPTIONS..!! PAY ATTENTION..!
         mKeyMapper.put(String.valueOf(9 + 100), Consts.ENTER_KEY_NAME);
 
         mKeyMapper.put(String.valueOf(10+ 100), Consts.SPACE_KEY_NAME);

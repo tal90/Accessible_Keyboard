@@ -93,7 +93,7 @@ public class HebrewKeysType extends AKeyType
             mKeys[i].setKeysOrganizer(keysOrganizer);
             mKeys[i].setSerialNum(i);
             mKeys[i].setMaxStates(Integer.valueOf(this.getMeaningStringFromKey(i, 0)));
-            mKeys[i].setContentDescription(this.getMeaningStringFromKey(i, 1));       // TODO - THIS IS WRONG!!! CHANGE HERE AND EVERY WHERE.. THE CONT.DESC IS A NUMBER RIGHT NOW..! FIX IT!
+            mKeys[i].setContentDescription(this.getDescriptionStringFromKey(i, 1));
         }
 
         return KeyboardView;

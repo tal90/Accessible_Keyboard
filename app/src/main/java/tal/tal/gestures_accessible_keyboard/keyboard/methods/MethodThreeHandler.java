@@ -22,8 +22,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
     private int mLastTouchYCoords = 0;
     private Key mLastTouchedKey = null;
     //endregion
-    private String mLastKeyMeaning = "";        // TODO - Check if needed..
-    private boolean mDeleteLastChar = true;     // TODO - Check if needed..
+    private boolean mDeleteLastChar = true;
     private long mLastTouchDownTime = 0;
     private long mKeyPickerTimeStamp = 0;
     private final int KEY_SELECTION_TIME_WINDOW = 300;
@@ -75,7 +74,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
                     if (mKeysOrganizer.IsRegularKey(mLastTouchedKey.getSerialNum()))
                     {
                         Log.v(TAG, "CLICK OPTION 1");
-                        mLastKeyMeaning = onKeyClick(mLastTouchedKey);
+                        onKeyClick(mLastTouchedKey);
                     } else mDeleteLastChar = false;
                 }
                 ResetKeyPickingTimer();
@@ -108,7 +107,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
                     if (!mKeysOrganizer.IsRegularKey(mLastTouchedKey.getSerialNum()))
                     {
                         Log.v(TAG, "CLICK OPTION 3");
-                        mLastKeyMeaning = onKeyClick(mLastTouchedKey);
+                        onKeyClick(mLastTouchedKey);
                     }
                 return true;
         }
@@ -260,7 +259,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
             Log.v(TAG, "AVOIDED BACKSPACE!!!");
             mDeleteLastChar = true;
         }
-        mLastKeyMeaning = onKeyClick(key);
+        onKeyClick(key);
     }
 
     public void ResetKeyPickingTimer()

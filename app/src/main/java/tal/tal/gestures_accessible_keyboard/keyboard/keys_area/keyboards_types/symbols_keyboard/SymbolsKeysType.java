@@ -134,14 +134,6 @@ public class SymbolsKeysType extends AKeyType
         return (Key) v.findViewById(R.id.Sym_Custom_Key10);
     }
 
-/*
-    @Override
-    public boolean IsSwitchToEnglishKeyboard(int KeySerialNum, int KeyState)
-    {
-        //TODO - UNIMPLEMENTED! - IMPLEMENT!!!
-        return false;
-    }
-    */
 
     @Override
     public View getKeysViewLayoutRoot(View v)

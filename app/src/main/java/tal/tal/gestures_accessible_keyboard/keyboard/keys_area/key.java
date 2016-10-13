@@ -112,18 +112,6 @@ public class Key extends View
     //endregion
 
 
-    public void onKeyClick()
-    {
-        // TODO - 24.8 - 13:44 - Imlement by adding reference to current applied method..
-
-    }
-
-    public void onKeyTouch()
-    {
-        // TODO - 24.8 - 13:44 - Imlement by adding reference to current applied method..
-
-    }
-
     public void IncrementStateBy1()
     {
         int tmpKeyState = mState + 1;

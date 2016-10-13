@@ -21,7 +21,6 @@ public class MainIME extends InputMethodService
     private View mKeyboardView = null;
     private KeysOrganizer mKeysOrganizer = null;
 
-
     @Override
     public View onCreateInputView()
     {
@@ -40,15 +39,10 @@ public class MainIME extends InputMethodService
             keyboardType = KeysOrganizer.KeyboardsTypes.English;        // Switch to the Default for other languages - English keyboard..
         }
 
-        // DEBUGGGG - i need to hear the bitch!
-        keyboardType = KeysOrganizer.KeyboardsTypes.English;
-
-
         mKeysOrganizer = new KeysOrganizer(getApplicationContext(), this);
         mKeyboardView = mKeysOrganizer.switchKeyboardType("", keyboardType);
 
         return mKeyboardView;
-        // TODO - recheck with TweetMechnism's func that i'vn't forgot anything!
     }
 
     @Override
@@ -59,7 +53,6 @@ public class MainIME extends InputMethodService
 
         mKeysOrganizer.setActionKey(info);
         mKeysOrganizer.setTypedText("");
-
 
         int u1 = InputType.TYPE_CLASS_TEXT | InputType.TYPE_NUMBER_VARIATION_PASSWORD;
         int u2 = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
@@ -75,17 +68,6 @@ public class MainIME extends InputMethodService
         }
 
         mKeysOrganizer.ReadOutLoudKeyboardName();
-
-
-        /*
-        if (TweetView != null && keysOrganizer != null)
-        {
-            keysOrganizer.setKeysAreaOnTouchListener(TweetView);
-            keysOrganizer.mVibrationIsON = sharedPreferences.getBoolean(Consts.SharedPref_Vibrate_TAG, true);
-        }
-        */
-
-
     }
 
     //region Setters & Getters

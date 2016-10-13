@@ -64,7 +64,7 @@ public class KeysOrganizer implements IKeysOperations
 
     public View switchKeyboardType(String PassedStr, final KeyboardsTypes keyboardType)
     {
-        Log.v(TAG, "switchKeyboadType");
+        Log.v(TAG, "switchKeyboardType");
         mKeyboardView = null;
 
         switch (keyboardType)
@@ -85,7 +85,7 @@ public class KeysOrganizer implements IKeysOperations
         }
 
         mKeyboardView = mAKeyType.KeyboardInitializer(this);
-        setUpChiefTextView(PassedStr); // TODO !!!! - lahzor Le ZE!! REIMPLEMENT!!!
+        setUpChiefTextView(PassedStr);
         setMethodHandler(mKeyboardView, PassedStr);
 
         mMainIME.setInputView(mKeyboardView);
@@ -183,13 +183,10 @@ public class KeysOrganizer implements IKeysOperations
 
     public void setMethodHandler(View v, String PassedStr)
     {
-        // TODO - Implement! - taken from 'setKeysAreaOnTouchListener' on keysorganizer!
-
         View Layout_Root = mAKeyType.getKeysViewLayoutRoot(v);
 
         if (Layout_Root == null)
             return;
-
 
         switch (getUsedMethodNumber())
         {
@@ -215,7 +212,6 @@ public class KeysOrganizer implements IKeysOperations
         }
 
         mIMethodHandlers.setTypedText(PassedStr);
-
     }
 
     @Override
@@ -379,7 +375,6 @@ public class KeysOrganizer implements IKeysOperations
 
     public void setIsTypedTextPassword(boolean isIt)
     {
-        //TODO - add some stuff here?
         if (mChiefTextView == null)
             return;
 

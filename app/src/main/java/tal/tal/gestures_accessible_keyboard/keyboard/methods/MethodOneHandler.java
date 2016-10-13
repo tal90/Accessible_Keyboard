@@ -233,7 +233,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
             case Consts.SYMBOLS_KEYBOARD_NAME:              // Same as regular eng keyboard
             case Consts.CAPITAL_ENGLISH_KEYBOARD_NAME:      // Same as regular eng keyboard
             case Consts.ENGLISH_KEYBOARD_NAME:
-                NewState = 2;       // TODO - Make sure..!
+                NewState = 2;
                 break;
         }
 
@@ -262,7 +262,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
             case Consts.SYMBOLS_KEYBOARD_NAME:              // Same as regular eng keyboard
             case Consts.CAPITAL_ENGLISH_KEYBOARD_NAME:      // Same as regular eng keyboard
             case Consts.ENGLISH_KEYBOARD_NAME:
-                NewState = 3;       // TODO - Make sure..!
+                NewState = 3;
                 break;
         }
 
@@ -291,7 +291,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
             case Consts.SYMBOLS_KEYBOARD_NAME:              // Same as regular eng keyboard
             case Consts.CAPITAL_ENGLISH_KEYBOARD_NAME:      // Same as regular eng keyboard
             case Consts.ENGLISH_KEYBOARD_NAME:
-                NewState = 1;       // TODO - Make sure..!
+                NewState = 1;
                 break;
         }
 
@@ -361,20 +361,3 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     //endregion
 
 }
-
-    /*              // TODO - This code was at the 8th line in the function DetectAndHandleValidSwipe.. this code checks if the current key is del or space.. and if yes, return false.. i dont know y i need this - meanwhile this is here.. for later use..
-        int LastTouchedKeySerialNumber = mLastTouchedKey.getKeySerialNum();
-        int LastTouchedKeyState = mLastTouchedKey.getKeyState();
-        if (mkeysOrganizer.IsKeyBackSpace(LastTouchedKeySerialNumber, LastTouchedKeyState) || mkeysOrganizer.IsKeyDelete(LastTouchedKeySerialNumber, LastTouchedKeyState))
-            return false;
-         */
-
-
-                /* WAS UNDER 'ACTION_UP' - on onTouch Function..!
-                if (System.currentTimeMillis() - mLastTouchDownTime < 250)      // Checking for short click.. problem is.. talkback reads the letter even if its a short click.. user might think that it has been clicked...
-                {
-                    mSpeechHelper.ReadDescription("SS");
-                    Log.v(TAG, "TOO SHORT CLICK..!");
-                    return false;
-                }
-                */

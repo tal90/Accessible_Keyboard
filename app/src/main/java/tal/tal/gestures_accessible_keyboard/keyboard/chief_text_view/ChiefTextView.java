@@ -132,18 +132,6 @@ public class ChiefTextView extends TextView
 
     //endregion
 
-    //region ?????
-     /*
-        public void onFontSizeChanged(int newFontSize)      // TODO - RECHECK ABOUT THE SHAREDPREFS..
-        {
-            mFontSize = newFontSize;
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-            sharedPreferences.edit()
-                    .putInt(Consts.SharedPref_FontSize_TAG, mFontSize)
-                    .commit();
-        }
-*/
-    //endregion
 
     private class ChiefTouchListener implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener, View.OnHoverListener
     {
