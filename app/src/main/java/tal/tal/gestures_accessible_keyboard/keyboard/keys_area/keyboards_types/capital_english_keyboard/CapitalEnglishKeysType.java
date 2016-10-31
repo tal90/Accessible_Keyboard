@@ -29,9 +29,9 @@ public class CapitalEnglishKeysType extends AKeyType
     }
 
     @Override
-    public boolean IsRegularKey(int KeySerialNum)
+    public boolean IsRegularKey(Key key)
     {
-        if (KeySerialNum < 9)
+        if (key.getSerialNum() < 9)
             return true;
 
         return false;
@@ -206,9 +206,9 @@ public class CapitalEnglishKeysType extends AKeyType
         mKeyMapper.put(String.valueOf(6), String.valueOf(4));
         mKeyMapper.put(String.valueOf(7), String.valueOf(3));
         mKeyMapper.put(String.valueOf(8), String.valueOf(4));
-        mKeyMapper.put(String.valueOf(9), String.valueOf(2));
+        mKeyMapper.put(String.valueOf(9), String.valueOf(1));
         mKeyMapper.put(String.valueOf(10), String.valueOf(1));
-        mKeyMapper.put(String.valueOf(11), String.valueOf(2));
+        mKeyMapper.put(String.valueOf(11), String.valueOf(1));
         //endregion
     }
 }

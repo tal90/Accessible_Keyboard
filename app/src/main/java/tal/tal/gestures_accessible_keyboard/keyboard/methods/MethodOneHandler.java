@@ -1,6 +1,7 @@
 package tal.tal.gestures_accessible_keyboard.keyboard.methods;
 
 import android.content.Context;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -26,14 +27,16 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     private Key mLastTouchedKey = null;
     //endregion
     //region DetectAndHandleValidSwipe Global Vars
-    private final int SWIPE_TIME_SLICE = 310;
+    private final int SWIPE_TIME_SLICE = 370; // 310;
     private long mLastTouchDownTime = 0;
     private int mMin_Swipe_Distance = 100;
     //endregion
     private View mKeysLayoutRoot = null;
     //region OnTouch Global Vars
     private float mDownX, mDownY, mUpX, mUpY;
+    private boolean mDeleteLastChar = true;
     //endregion
+    private long ChillTimerTimeStamp = 0;
 
     public MethodOneHandler(KeysOrganizer _KeysOrganizer, int _Min_Swipe_Distance)
     {
@@ -136,7 +139,7 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
         if (System.currentTimeMillis() - mLastTouchDownTime > SWIPE_TIME_SLICE)
             return false;
 
-        if (mLastTouchedKey == null)        // TODO - TAL.. SIM LEV LEZE!!! - ASK THIS Question AGAIN IN THE ONTOUCH FUNC!!
+        if (mLastTouchedKey == null)
             return false;
 
         // swipe horizontal?
@@ -184,6 +187,42 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
         }
 
         return false; // no swipe horizontally and no swipe vertically
+    }
+
+
+    public boolean ReplaceKeyIfRegular(Key key)
+    {
+        if (mKeysOrganizer.IsRegularKey(key))
+        {
+            ReplaceLastCharacter(key);
+            return true;
+        }
+        return false;
+    }
+
+    public void ReplaceLastCharacter(Key key)
+    {
+        if (mDeleteLastChar)
+        {
+            mKeysOrganizer.BackSpaceKeyClick(this);
+            Log.v(TAG, "BackSpace click!");
+        } else
+        {
+            Log.v(TAG, "AVOIDED BACKSPACE!!!");
+            mDeleteLastChar = true;
+        }
+        onKeyClick(key);
+    }
+
+
+    public void ResetChillTimer()
+    {
+        ChillTimerTimeStamp = System.currentTimeMillis();
+    }
+
+    public boolean isChillTimeIsUp()
+    {
+        return ChillTimerTimeStamp + 900 < System.currentTimeMillis();
     }
 
 
@@ -309,10 +348,13 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     @Override
     public String onKeyClick(Key key)
     {
+        if (key == null)
+            return "";
+
         String ReturnedString = key.getKeyMeaning();
         Log.v(TAG, ReturnedString + " Key Clicked!");
 
-        if (mKeysOrganizer.IsRegularKey(key.getSerialNum()))
+        if (mKeysOrganizer.IsRegularKey(key))
         {
             ConcatenateToTypedTextAndChief(key.getKeyMeaning());
         } else
@@ -358,6 +400,82 @@ public class MethodOneHandler implements IMethodHandlers, View.OnTouchListener, 
     {
         mTypedText = str;
     }
+
+    @Override
+    public void BlankLastTouchedKey()
+    {
+        mLastTouchedKey = null;
+    }
     //endregion
 
 }
+
+
+// DUMPSTER FOR NOW..
+/*
+@Override
+    public boolean onTouch(View view, MotionEvent motionEvent)
+    {
+        switch (motionEvent.getAction())
+        {
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_DOWN:
+                mDownX = motionEvent.getX();
+                mDownY = motionEvent.getY();
+                mLastTouchDownTime = System.currentTimeMillis();
+
+                ResetChillTimer();
+//                return true;
+
+
+                mDeleteLastChar = true;
+                LocateTouchedKey(view, motionEvent);
+
+                if (mKeysOrganizer.IsRegularKey(mLastTouchedKey))
+                {
+                    Log.v(TAG, "CLICK OPTION 1");
+                    onKeyClick(mLastTouchedKey);
+                } else mDeleteLastChar = false;
+                return true;
+
+            case MotionEvent.ACTION_MOVE:
+            case MotionEvent.ACTION_HOVER_MOVE:
+                Log.v(TAG, "ACTION_MOVE!");
+
+                if (!isChillTimeIsUp())
+                {
+                    Log.v(TAG, "CHILLL MANNN!!");
+                    return true;
+                }
+
+                ResetChillTimer();
+
+                int LastKeySerNum = mLastTouchedKey.getSerialNum();
+                LocateTouchedKey(view, motionEvent);
+                if (mLastTouchedKey.getSerialNum() != LastKeySerNum)        // Same Key Pressed
+                {
+                    Log.v(TAG, "CLICK OPTION 1");
+                    ReplaceKeyIfRegular(mLastTouchedKey);
+
+                } else
+                    return true;                                                // Another Key Was Pressed
+
+                return true;
+
+            case MotionEvent.ACTION_HOVER_EXIT:
+            case MotionEvent.ACTION_UP:
+                mUpX = motionEvent.getX();
+                mUpY = motionEvent.getY();
+
+                if (DetectAndHandleValidSwipe(mDownX - mUpX, mDownY - mUpY))
+                    return true;
+
+ //               onKeyClick(LocateTouchedKey(view, motionEvent));
+                ReplaceLastCharacter(LocateTouchedKey(view, motionEvent));
+                return true;
+        }
+        return false;
+    }
+
+
+ */

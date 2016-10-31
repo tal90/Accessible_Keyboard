@@ -23,7 +23,7 @@ public abstract class AKeyType
     public int mNumOfKeys = 12;
 
     public abstract String getKeyboardName();
-    public abstract boolean IsRegularKey(int KeySerialNum);
+    public abstract boolean IsRegularKey(Key key);
     public abstract String getMeaningStringFromKey(int KeySerialNum, int KeyState);
     public abstract String getDescriptionStringFromKey(int KeySerialNum, int KeyState);
     public abstract LinearLayout[] getRowsArray(View v);

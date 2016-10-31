@@ -79,7 +79,7 @@ public class KeysOrganizer implements IKeysOperations
                 mAKeyType = new SymbolsKeysType();
                 break;
             default:
-            case Hebrew:
+//            case Hebrew:
                 mAKeyType = new HebrewKeysType();
                 break;
         }
@@ -343,6 +343,11 @@ public class KeysOrganizer implements IKeysOperations
         mMainIME.startActivity(SettingsIntent);
     }
 
+    public void BlankLastTouchedKey()
+    {
+        mIMethodHandlers.BlankLastTouchedKey();
+    }
+
     // region Setters & Getters
     public String getKeyMeaning(int KeySerialNum, int KeyState)
     {
@@ -392,9 +397,9 @@ public class KeysOrganizer implements IKeysOperations
         return mAKeyType.getKeyboardName();
     }
 
-    public boolean IsRegularKey(int KeySerialNumber)
+    public boolean IsRegularKey(Key key)
     {
-        return mAKeyType.IsRegularKey(KeySerialNumber);
+        return mAKeyType.IsRegularKey(key);
     }
 
     public View getKeysLayoutRoot()

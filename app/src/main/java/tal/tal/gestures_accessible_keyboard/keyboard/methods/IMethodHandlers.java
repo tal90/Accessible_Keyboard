@@ -13,4 +13,5 @@ public interface IMethodHandlers
     void ConcatenateToTypedTextAndChief(String string);
     void SetTypedTextAnEmptyString();
     void setTypedText(String str);
+    void BlankLastTouchedKey();
 }

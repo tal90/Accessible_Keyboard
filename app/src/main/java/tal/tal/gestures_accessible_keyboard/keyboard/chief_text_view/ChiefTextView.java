@@ -289,11 +289,13 @@ public class ChiefTextView extends TextView
             {
                 case RIGHT_INVISIBLE_KEY:
                     Log.v(TAG, "RIGHT INVISIBLE KEY WAS TRIGGERED!");
+                    mKeysOrganizer.BlankLastTouchedKey();
                     mKeysOrganizer.OnRightInvisibleKeyClick();
                     break;
 
                 case LEFT_INVISIBLE_KEY:
                     Log.v(TAG, "LEFT INVISIBLE KEY WAS TRIGGERED!");
+                    mKeysOrganizer.BlankLastTouchedKey();
                     mKeysOrganizer.OnLeftInvisibleKeyClick();
                     break;
             }

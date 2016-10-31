@@ -71,7 +71,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
                 if (isKeyPickerTimeIsUp())
                 {
                     LocateTouchedKey(view, motionEvent);
-                    if (mKeysOrganizer.IsRegularKey(mLastTouchedKey.getSerialNum()))
+                    if (mKeysOrganizer.IsRegularKey(mLastTouchedKey))
                     {
                         Log.v(TAG, "CLICK OPTION 1");
                         onKeyClick(mLastTouchedKey);
@@ -104,7 +104,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
                 Log.v(TAG, "ACTION_UP!");
                 SetAllKeysState(1);
                 if (mLastTouchedKey != null)
-                    if (!mKeysOrganizer.IsRegularKey(mLastTouchedKey.getSerialNum()))
+                    if (!mKeysOrganizer.IsRegularKey(mLastTouchedKey))
                     {
                         Log.v(TAG, "CLICK OPTION 3");
                         onKeyClick(mLastTouchedKey);
@@ -194,7 +194,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
         String ReturnString = key.getKeyMeaning();
         Log.v(TAG, ReturnString + " Key Clicked!");
 
-        if (mKeysOrganizer.IsRegularKey(key.getSerialNum()))
+        if (mKeysOrganizer.IsRegularKey(key))
         {
             ConcatenateToTypedTextAndChief(key.getKeyMeaning());
         } else
@@ -227,6 +227,12 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
         mTypedText = str;
     }
 
+    @Override
+    public void BlankLastTouchedKey()
+    {
+        mLastTouchedKey = null;
+    }
+
     //endregion
 
     public void SetAllKeysState(int newState)
@@ -240,7 +246,7 @@ public class MethodThreeHandler implements IMethodHandlers, View.OnTouchListener
 
     public boolean ReplaceKeyIfRegular(Key key)
     {
-        if (mKeysOrganizer.IsRegularKey(key.getSerialNum()))
+        if (mKeysOrganizer.IsRegularKey(key))
         {
             ReplaceLastCharacter(key);
             return true;
